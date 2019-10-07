@@ -4,7 +4,10 @@ import ReactDOM from 'react-dom';
 class ProjectBoard extends React.Component{
     render(){
         return(
-            <ProjectOptionsBar />
+            <div>
+                <ProjectOptionsBar />
+                <ProjectTasksTable />
+            </div>
         );
     }
 }
@@ -12,7 +15,38 @@ class ProjectBoard extends React.Component{
 class ProjectOptionsBar extends React.Component{
     render(){
         return(
-            <label>ProjectBoard</label>
+            <div>
+                ProjectBoard
+                <button>Add project</button>
+                <button>Edit projects</button>
+            </div>
+        );
+    }
+}
+
+class ProjectTasksTable extends React.Component{
+    render(){
+        return(
+            <div>
+                TestProject
+                <table>
+                    <StatusBar Name="Függőben"/>
+                    <StatusBar Name="Folyamatban"/>
+                    <StatusBar Name="Kész"/>
+                    <StatusBar Name="Elhalasztva"/>
+                </table>
+            </div>
+        );
+    }
+}
+
+class StatusBar extends React.Component{
+    render(){
+        return(
+            <th>
+                {this.props.Name}
+                <button>+</button>
+            </th>
         );
     }
 }
