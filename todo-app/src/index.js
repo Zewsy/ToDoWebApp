@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import TaskContainer from './taskcontainer';
 
 class ProjectBoard extends React.Component{
     render(){
@@ -29,24 +30,8 @@ class ProjectTasksTable extends React.Component{
         return(
             <div>
                 TestProject
-                <table>
-                    <StatusBar Name="Függőben"/>
-                    <StatusBar Name="Folyamatban"/>
-                    <StatusBar Name="Kész"/>
-                    <StatusBar Name="Elhalasztva"/>
-                </table>
+                <TaskContainer />
             </div>
-        );
-    }
-}
-
-class StatusBar extends React.Component{
-    render(){
-        return(
-            <th>
-                {this.props.Name}
-                <button>+</button>
-            </th>
         );
     }
 }
