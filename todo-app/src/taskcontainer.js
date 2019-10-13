@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import Modal from './Modals';
 
 function TaskMapper(task){
     return (
@@ -44,27 +45,55 @@ class TaskContainer extends React.Component{
     }
 }
 
+class TaskTable extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            isModalActive: false
+        }
+    }
+    
+    openModal(){
+        this.setState({
+            isModalActive: true
+        });
+    }
+
+    closeModal(){
+        this.setState({
+            isModalActive: false
+        });
+    }
+
+    render(){
+        const tasks = this.props.tasks;
+        let modal = null;
+        if(this.state.isModalActive){
+            modal = <Modal onClose={() => this.closeModal()}/>
+        }
+        return(
+            <div>
+                <table style={{float: 'left'}}>
+                    <StatusBar Name={this.props.status} onAddClick={() => this.openModal()}/>
+                    {tasks}
+                </table>
+                {modal}
+            </div>
+            
+        );
+    }
+}
+
 class StatusBar extends React.Component{
     render(){
         return(
             <th>
                 {this.props.Name}
-                <button>+</button>
+                <button id="btnAddTask" onClick={() => this.props.onAddClick()}>+</button>
             </th>
         );
     }
-}
 
-class TaskTable extends React.Component{
-    render(){
-        const tasks = this.props.tasks;
-        return(
-            <table style={{float: 'left'}}>
-                <StatusBar Name={this.props.status}/>
-                {tasks}
-            </table>
-        );
-    }
 }
 
 class Task extends React.Component{
