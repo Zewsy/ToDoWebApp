@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from './Modals';
+import './tasks.css';
 
 function TaskMapper(task){
     return (
@@ -109,9 +110,12 @@ class Task extends React.Component{
     }
 
     render(){
+        const deadline = new Date(this.state.deadline);
         return(
-            <tr>
-                {this.state.title}
+            <tr className="task">
+                {this.state.title} <br />
+                {this.state.description} <br />
+                {deadline.toLocaleDateString()} <br />
             </tr>
         );
     }
