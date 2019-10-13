@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from './Modals';
 import './tasks.css';
 
-function TaskMapper(task){
+function TaskMapper(task, clickHandler){
     return (
     <Task
         title = {task.title}
@@ -10,6 +10,7 @@ function TaskMapper(task){
         deadline = {task.deadline}
         status = {task.status}
         priority = {task.priority}
+        onEditClick = {() => clickHandler()}
     />);
 }
 
@@ -31,10 +32,10 @@ class TaskContainer extends React.Component{
     }
 
     render(){
-        const pendingTasks = this.state.tasks.filter(t => {return t.status.match("Pending")}).map(t => TaskMapper(t));
-        const inProgressTasks = this.state.tasks.filter(t => {return t.status.match("In Progress")}).map(t => TaskMapper(t));
-        const doneTasks = this.state.tasks.filter(t => {return t.status.match("Done")}).map(t => TaskMapper(t));
-        const suspendedTasks = this.state.tasks.filter(t => {return t.status.match("Suspended")}).map(t => TaskMapper(t));
+        const pendingTasks = this.state.tasks.filter(t => {return t.status.match("Pending")});
+        const inProgressTasks = this.state.tasks.filter(t => {return t.status.match("In Progress")});
+        const doneTasks = this.state.tasks.filter(t => {return t.status.match("Done")});
+        const suspendedTasks = this.state.tasks.filter(t => {return t.status.match("Suspended")});
         return(
             <div>
                 <TaskTable tasks={pendingTasks} status="Függőben"/>
@@ -51,7 +52,7 @@ class TaskTable extends React.Component{
         super(props);
         this.state={
             isModalActive: false
-        }
+        };
     }
     
     openModal(){
@@ -67,11 +68,11 @@ class TaskTable extends React.Component{
     }
 
     render(){
-        const tasks = this.props.tasks;
         let modal = null;
         if(this.state.isModalActive){
             modal = <Modal onClose={() => this.closeModal()} status={this.props.status}/>
         }
+        const tasks = this.props.tasks.map(t => TaskMapper(t, () => this.openModal()));
         return(
             <div>
                 <table className="taskTable">
@@ -80,7 +81,6 @@ class TaskTable extends React.Component{
                 </table>
                 {modal}
             </div>
-            
         );
     }
 }
@@ -94,7 +94,6 @@ class StatusBar extends React.Component{
             </th>
         );
     }
-
 }
 
 class Task extends React.Component{
@@ -113,7 +112,7 @@ class Task extends React.Component{
         const deadline = new Date(this.state.deadline);
         return(
             <tr className="task">
-                <button className="btnTaskEdit">
+                <button className="btnTaskEdit" onClick={() => this.props.onEditClick()}>
                     Edit
                 </button>
                 {this.state.title} <br />

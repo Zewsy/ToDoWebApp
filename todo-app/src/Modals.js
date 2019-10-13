@@ -2,9 +2,22 @@ import React from 'react';
 import './Modals.css';
 
 class Modal extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {value: this.props.status};
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+    
+    handleChange(event){
+        this.setState({
+            value: event.target.value
+        });
+    }
+
     render(){
         const statusSelect = (
-            <select value={this.props.status}>
+            <select value={this.state.value} onChange={this.handleChange}>
                 <option value="Függőben">Függőben</option>
                 <option value="Folyamatban">Folyamatban</option>
                 <option value="Kész">Kész</option>
@@ -13,9 +26,9 @@ class Modal extends React.Component{
         );
 
         return(
-            <div id="addTaskModal" class='modal'>
-                <div class="modal-content">
-                    <span class="close-btn" onClick={() => this.props.onClose()}>&times;</span>
+            <div id="taskModal" className='modal'>
+                <div className="modal-content">
+                    <span className="close-btn" onClick={() => this.props.onClose()}>&times;</span>
                     <h4>Teendő hozzáadása</h4>
                     <form>
                         Cím: <input type="text" /> <br />
