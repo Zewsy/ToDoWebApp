@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TaskContainer from './taskcontainer';
 
 class TasksBoard extends React.Component{
