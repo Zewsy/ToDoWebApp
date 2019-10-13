@@ -3,6 +3,15 @@ import './Modals.css';
 
 class Modal extends React.Component{
     render(){
+        const statusSelect = (
+            <select value={this.props.status}>
+                <option value="Függőben">Függőben</option>
+                <option value="Folyamatban">Folyamatban</option>
+                <option value="Kész">Kész</option>
+                <option value="Elhalasztva">Elhalasztva</option>
+            </select>
+        );
+
         return(
             <div id="addTaskModal" class='modal'>
                 <div class="modal-content">
@@ -12,6 +21,7 @@ class Modal extends React.Component{
                         Cím: <input type="text" /> <br />
                         Leírás: <input type="text" /> <br />
                         Határidő: <input type="date" /> <br />
+                        Állapot: {statusSelect} <br />
                         Prioritás: <input type="number" /> <br />
                         <input type="submit" value="Hozzáadás"/>
                     </form>

@@ -70,7 +70,7 @@ class TaskTable extends React.Component{
         const tasks = this.props.tasks;
         let modal = null;
         if(this.state.isModalActive){
-            modal = <Modal onClose={() => this.closeModal()}/>
+            modal = <Modal onClose={() => this.closeModal()} status={this.props.status}/>
         }
         return(
             <div>
