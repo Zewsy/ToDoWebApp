@@ -1,21 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-class CreateProject extends React.Component{
-    render(){
-        return(
-            <div>
-                <h1>Create Project</h1>
-                <form className="formCreateProject">
-                    Név: <input type="text" /> <br />
-                    Leírás: <input type="text" /> <br />
-                </form>
-            </div>
-        );
-    }
-}
+import {BrowserRouter} from 'react-router-dom';
+import App from './App';
 
 ReactDOM.render(
-    <CreateProject />,
+    (<BrowserRouter>
+        <App />
+    </BrowserRouter>),
     document.getElementById('root')
-)
+);

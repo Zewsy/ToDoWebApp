@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class ProjectTable extends React.Component{
     render(){
@@ -16,7 +15,4 @@ class ProjectTable extends React.Component{
     }
 }
 
-ReactDOM.render(
-    <ProjectTable />,
-    document.getElementById('root')
-)
+export default ProjectTable;

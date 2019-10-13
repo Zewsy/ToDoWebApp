@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TaskContainer from './taskcontainer';
 
-class ProjectBoard extends React.Component{
+class TasksBoard extends React.Component{
     render(){
         return(
             <div>
@@ -37,7 +37,4 @@ class ProjectTasksTable extends React.Component{
     }
 }
 
-ReactDOM.render(
-    <ProjectBoard />,
-    document.getElementById('root')
-)
+export default TasksBoard;
