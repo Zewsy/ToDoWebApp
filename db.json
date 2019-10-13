@@ -7,7 +7,8 @@
             "description": "Fixed plan",
             "deadline": "2019-10-25T18:00:00.000+02:00",
             "status": "Done",
-            "priority": 1
+            "priority": 1,
+			"project": 1
         },
         {
             "id": 2,
@@ -15,7 +16,8 @@
             "description": "Tasks specified",
             "deadline": "2019-10-25T18:00:00.000+02:00",
             "status": "Done",
-            "priority": 2
+            "priority": 2,
+			"project": 1
         },
         {
             "id": 3,
@@ -23,7 +25,8 @@
             "description": "As soon as possible",
             "deadline": "2019-10-25T18:00:00.000+02:00",
             "status": "In Progress",
-            "priority": 1
+            "priority": 1,
+			"project": 1
         },
         {
             "id": 4,
@@ -31,7 +34,8 @@
             "description": "In parallel with Task A",
             "deadline": "2019-10-25T18:00:00.000+02:00",
             "status": "In Progress",
-            "priority": 2
+            "priority": 2,
+			"project": 1
         },
         {
             "id": 5,
@@ -39,7 +43,8 @@
             "description": "Not urgent",
             "deadline": "2019-10-25T18:00:00.000+02:00",
             "status": "Pending",
-            "priority": 3
+            "priority": 3,
+			"project": 1
         },
         {
             "id": 6,
@@ -47,7 +52,8 @@
             "description": "Important to do",
             "deadline": "2019-10-25T18:00:00.000+02:00",
             "status": "Pending",
-            "priority": 1
+            "priority": 1,
+			"project": 2
         },
         {
             "id": 7,
@@ -55,7 +61,22 @@
             "description": "",
             "deadline": "2019-10-25T18:00:00.000+02:00",
             "status": "In Progress",
-            "priority": 3
+            "priority": 3,
+			"project": 2
         }
     ]
+	
+	"projects":
+	[
+		{
+			"id": 1,
+			"name": "Main Project",
+			"description": "Making the frontend"
+		},
+		{
+			"id": 2,
+			"name": "Project 2",
+			"description": "asd1234 afafoepfio poakfe apfkao ffjaiofh fe iuafeaeufnnafnief if heu"
+		}
+	]
 }
