@@ -74,7 +74,7 @@ class TaskTable extends React.Component{
         }
         return(
             <div>
-                <table style={{float: 'left'}}>
+                <table className="taskTable">
                     <StatusBar Name={this.props.status} onAddClick={() => this.openModal()}/>
                     {tasks}
                 </table>
@@ -113,6 +113,9 @@ class Task extends React.Component{
         const deadline = new Date(this.state.deadline);
         return(
             <tr className="task">
+                <button className="btnTaskEdit">
+                    Edit
+                </button>
                 {this.state.title} <br />
                 {this.state.description} <br />
                 {deadline.toLocaleDateString()} <br />
