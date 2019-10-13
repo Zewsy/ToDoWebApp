@@ -1,43 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TaskContainer from './taskcontainer';
 
-class ProjectBoard extends React.Component{
+class ProjectTable extends React.Component{
     render(){
         return(
             <div>
-                <ProjectOptionsBar />
-                <ProjectTasksTable />
-            </div>
-        );
-    }
-}
-
-class ProjectOptionsBar extends React.Component{
-    render(){
-        return(
-            <div>
-                ProjectBoard
-                <button>Add project</button>
-                <button>Edit projects</button>
-            </div>
-        );
-    }
-}
-
-
-class ProjectTasksTable extends React.Component{
-    render(){
-        return(
-            <div>
-                TestProject
-                <TaskContainer />
+                <h1>Projects</h1>
+                <table className="projectsTable">
+                    <tr>
+                        SampleProject
+                    </tr>
+                </table>
             </div>
         );
     }
 }
 
 ReactDOM.render(
-    <ProjectBoard />,
+    <ProjectTable />,
     document.getElementById('root')
 )
