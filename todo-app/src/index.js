@@ -1,22 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class ProjectTable extends React.Component{
+class CreateProject extends React.Component{
     render(){
         return(
             <div>
-                <h1>Projects</h1>
-                <table className="projectsTable">
-                    <tr>
-                        SampleProject
-                    </tr>
-                </table>
+                <h1>Create Project</h1>
+                <form className="formCreateProject">
+                    Név: <input type="text" /> <br />
+                    Leírás: <input type="text" /> <br />
+                </form>
             </div>
         );
     }
 }
 
 ReactDOM.render(
-    <ProjectTable />,
+    <CreateProject />,
     document.getElementById('root')
 )
