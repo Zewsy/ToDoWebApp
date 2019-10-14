@@ -48,6 +48,10 @@ class ProjectTable extends React.Component{
             })
     }
 
+    handleAddClick(){
+        this.props.history.push('/create-project');
+    }
+
     render(){
         const projects = this.state.projects.map(
         p => {
@@ -62,12 +66,13 @@ class ProjectTable extends React.Component{
 
         return(
             <div>
-                <h1>Projects</h1>
+                <h1>Projektek</h1>
                 <table className="projectsTable">
                     <tbody>
                         {projects}
                     </tbody>
                 </table>
+                <button className="btnAddProject" onClick={() => this.handleAddClick()}>Projekt hozzáadása</button>
             </div>
         );
     }

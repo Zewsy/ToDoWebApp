@@ -5,3 +5,7 @@
 .rowLink{
     cursor: pointer;
 }
+
+.btnAddProject{
+    margin-left: 45%;
+}

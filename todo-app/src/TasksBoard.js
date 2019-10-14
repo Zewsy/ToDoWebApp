@@ -16,9 +16,9 @@ class ProjectOptionsBar extends React.Component{
     render(){
         return(
             <div>
-                ProjectBoard
-                <button>Add project</button>
-                <button>Edit projects</button>
+                Projekt Tábla
+                <button>Projekt hozzáadása</button>
+                <button>Projekt kiválasztása</button>
             </div>
         );
     }
