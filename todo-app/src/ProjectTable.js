@@ -1,6 +1,6 @@
 import React from 'react';
 import './projects.css';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
 
 class Project extends React.Component{
     constructor(props){

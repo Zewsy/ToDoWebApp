@@ -1,11 +1,12 @@
 import React from 'react';
 import TaskContainer from './taskcontainer';
+import { withRouter } from 'react-router';
 
 class TasksBoard extends React.Component{
     render(){
         return(
             <div>
-                <ProjectOptionsBar />
+                <ProjectOptionsBar history={this.props.history} />
                 <ProjectTasksTable />
             </div>
         );
@@ -13,12 +14,20 @@ class TasksBoard extends React.Component{
 }
 
 class ProjectOptionsBar extends React.Component{
+    handleAddClick(){
+        this.props.history.push('/create-project');
+    }
+
+    handleChooseClick(){
+        this.props.history.push('/');
+    }
+
     render(){
         return(
             <div>
                 Projekt Tábla
-                <button>Projekt hozzáadása</button>
-                <button>Projekt kiválasztása</button>
+                <button onClick={() => this.handleAddClick()}>Projekt hozzáadása</button>
+                <button onClick={() => this.handleChooseClick()}>Projekt kiválasztása</button>
             </div>
         );
     }
@@ -35,4 +44,4 @@ class ProjectTasksTable extends React.Component{
     }
 }
 
-export default TasksBoard;
+export default withRouter(TasksBoard);
