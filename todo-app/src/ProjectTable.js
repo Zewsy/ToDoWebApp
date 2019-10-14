@@ -1,5 +1,6 @@
 import React from 'react';
 import './projects.css';
+import { withRouter } from 'react-router'
 
 class Project extends React.Component{
     constructor(props){
@@ -10,11 +11,21 @@ class Project extends React.Component{
             description: this.props.description
         }
     }
+
+    handleClick(){
+        this.props.history.push({
+            pathname: '/tasks',
+            state: {selectedProject: this.state.id}
+        });
+    }
+
     render(){
         return(
-            <tr>
-                {this.state.name} <br />
-                {this.state.description}
+            <tr onClick={() => this.handleClick()}>
+                <td className="projectBar">
+                    {this.state.name} <br />
+                    {this.state.description}
+                </td>
             </tr>
         );
     }
@@ -40,22 +51,26 @@ class ProjectTable extends React.Component{
     render(){
         const projects = this.state.projects.map(
         p => {
-        return (<tr className="projectBar">
+        return (
             <Project id={p.id}
                     name={p.name}
                     description={p.description}
+                    key={p.id}
+                    history={this.props.history}
             />
-        </tr>)});
+        )});
 
         return(
             <div>
                 <h1>Projects</h1>
                 <table className="projectsTable">
-                    {projects}
+                    <tbody>
+                        {projects}
+                    </tbody>
                 </table>
             </div>
         );
     }
 }
 
-export default ProjectTable;
+export default withRouter(ProjectTable);

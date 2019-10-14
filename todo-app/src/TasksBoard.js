@@ -24,7 +24,6 @@ class ProjectOptionsBar extends React.Component{
     }
 }
 
-
 class ProjectTasksTable extends React.Component{
     render(){
         return(

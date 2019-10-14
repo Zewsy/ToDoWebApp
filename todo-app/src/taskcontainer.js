@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from './Modals';
 import './tasks.css';
+import { withRouter } from 'react-router'
 
 function TaskMapper(task, clickHandler){
     return (
@@ -10,6 +11,7 @@ function TaskMapper(task, clickHandler){
         deadline = {task.deadline}
         status = {task.status}
         priority = {task.priority}
+        project = {task.project}
         onEditClick = {() => clickHandler()}
     />);
 }
@@ -18,7 +20,8 @@ class TaskContainer extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            tasks: []
+            tasks: [],
+            projectId: this.props.location.state.selectedProject
         };
     }
 
@@ -32,10 +35,10 @@ class TaskContainer extends React.Component{
     }
 
     render(){
-        const pendingTasks = this.state.tasks.filter(t => {return t.status.match("Pending")});
-        const inProgressTasks = this.state.tasks.filter(t => {return t.status.match("In Progress")});
-        const doneTasks = this.state.tasks.filter(t => {return t.status.match("Done")});
-        const suspendedTasks = this.state.tasks.filter(t => {return t.status.match("Suspended")});
+        const pendingTasks = this.state.tasks.filter(t => {return t.status.match("Pending") && t.project === this.state.projectId});
+        const inProgressTasks = this.state.tasks.filter(t => {return t.status.match("In Progress") && t.project === this.state.projectId});
+        const doneTasks = this.state.tasks.filter(t => {return t.status.match("Done") && t.project === this.state.projectId});
+        const suspendedTasks = this.state.tasks.filter(t => {return t.status.match("Suspended") && t.project === this.state.projectId});
         return(
             <div>
                 <TaskTable tasks={pendingTasks} status="Függőben"/>
@@ -104,7 +107,8 @@ class Task extends React.Component{
             description: this.props.description,
             deadline: this.props.deadline,
             status: this.props.status,
-            priority: this.props.priority
+            priority: this.props.priority,
+            project: this.props.project
         }
     }
 
@@ -123,4 +127,4 @@ class Task extends React.Component{
     }
 }
 
-export default TaskContainer;
+export default withRouter(TaskContainer);
