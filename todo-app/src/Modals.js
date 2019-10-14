@@ -1,5 +1,7 @@
 import React from 'react';
 import './Modals.css';
+import { withRouter } from 'react-router';
+
 
 class Modal extends React.Component{
     constructor(props){
@@ -11,6 +13,7 @@ class Modal extends React.Component{
         this.handleDescChange = this.handleDescChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handlePriorityChange = this.handlePriorityChange.bind(this);
+        this.handleSubmitClick = this.handleSubmitClick.bind(this);
     }
     
     handleChange(event){
@@ -19,16 +22,25 @@ class Modal extends React.Component{
         });
     }
 
-    handleSubmitClick(){
-        const url = "http://localhost:3001/projects";
+    handleSubmitClick(e){
+        e.preventDefault();
+        const url = "http://localhost:3001/todos"
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                id: this.props.maxId + 1,
+                title: this.state.title,
+                description: this.state.desc,
+                deadline: this.state.date,
+                status: this.state.statusValue,
+                priority: parseInt(this.state.priority),
+                project: this.props.projectId
             })
-            });
+        }).then(this.props.onChange);
+        this.props.onClose();
     }
 
     handleTitleChange(e){
@@ -62,13 +74,13 @@ class Modal extends React.Component{
                 <div className="modal-content">
                     <span className="close-btn" onClick={() => this.props.onClose()}>&times;</span>
                     <h4>Teendő hozzáadása</h4>
-                    <form>
+                    <form onSubmit={this.handleSubmitClick}>
                         Cím: <input type="text" value={this.state.title} onChange={this.handleTitleChange}/> <br />
                         Leírás: <input type="text" value={this.state.desc} onChange={this.handleDescChange} /> <br />
                         Határidő: <input type="date" value={this.state.date} onChange={this.handleDateChange}/> <br />
                         Állapot: {statusSelect} <br />
                         Prioritás: <input type="number" value={this.state.priority} onChange={this.handlePriorityChange} /> <br />
-                        <input type="submit" value="Hozzáadás" onClick={() => this.handleSubmitClick()}/>
+                        <input type="submit" value="Hozzáadás"/>
                     </form>
                 </div>
             </div>
@@ -76,4 +88,4 @@ class Modal extends React.Component{
     }
 }
 
-export default Modal;
+export default withRouter(Modal);

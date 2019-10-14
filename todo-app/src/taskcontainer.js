@@ -6,6 +6,7 @@ import { withRouter } from 'react-router'
 function TaskMapper(task, clickHandler){
     return (
     <Task
+        id = {task.id}
         title = {task.title}
         description = {task.description}
         deadline = {task.deadline}
@@ -21,11 +22,13 @@ class TaskContainer extends React.Component{
         super(props);
         this.state = {
             tasks: [],
-            projectId: this.props.location.state.selectedProject
+            projectId: this.props.location.state.selectedProject,
         };
+
+        this.onChange = this.onChange.bind(this);
     }
 
-    componentDidMount(){
+    onChange(){
         const url = "http://localhost:3001/todos"
         fetch(url)
             .then(resp => resp.json())
@@ -34,17 +37,23 @@ class TaskContainer extends React.Component{
             })
     }
 
+    componentDidMount(){
+        this.onChange();
+    }
+
     render(){
-        const pendingTasks = this.state.tasks.filter(t => {return t.status.match("Pending") && t.project === this.state.projectId});
-        const inProgressTasks = this.state.tasks.filter(t => {return t.status.match("In Progress") && t.project === this.state.projectId});
-        const doneTasks = this.state.tasks.filter(t => {return t.status.match("Done") && t.project === this.state.projectId});
-        const suspendedTasks = this.state.tasks.filter(t => {return t.status.match("Suspended") && t.project === this.state.projectId});
+        const tasks = this.state.tasks;
+        var maxId = tasks.length;
+        const pendingTasks = tasks.filter(t => {return t.status.match("Függőben") && t.project === this.state.projectId});
+        const inProgressTasks = tasks.filter(t => {return t.status.match("Folyamatban") && t.project === this.state.projectId});
+        const doneTasks = tasks.filter(t => {return t.status.match("Kész") && t.project === this.state.projectId});
+        const suspendedTasks = tasks.filter(t => {return t.status.match("Elhalasztva") && t.project === this.state.projectId});
         return(
             <div>
-                <TaskTable tasks={pendingTasks} status="Függőben"/>
-                <TaskTable tasks={inProgressTasks} status="Folyamatban"/>
-                <TaskTable tasks={doneTasks} status="Kész"/>
-                <TaskTable tasks={suspendedTasks} status="Elhalasztva"/>
+                <TaskTable maxId={maxId} tasks={pendingTasks} status="Függőben" projectId={this.state.projectId} onChange={() => this.onChange()}/>
+                <TaskTable maxId={maxId} tasks={inProgressTasks} status="Folyamatban" projectId={this.state.projectId} onChange={() => this.onChange()}/>
+                <TaskTable maxId={maxId} tasks={doneTasks} status="Kész" projectId={this.state.projectId} onChange={() => this.onChange()}/>
+                <TaskTable maxId={maxId} tasks={suspendedTasks} status="Elhalasztva" projectId={this.state.projectId} onChange={() => this.onChange()}/>
             </div>
         );
     }
@@ -53,11 +62,11 @@ class TaskContainer extends React.Component{
 class TaskTable extends React.Component{
     constructor(props){
         super(props);
-        this.state={
+        this.state = {
             isModalActive: false
         };
     }
-    
+
     openModal(){
         this.setState({
             isModalActive: true
@@ -69,13 +78,13 @@ class TaskTable extends React.Component{
             isModalActive: false
         });
     }
-
+    
     render(){
+        const tasks = this.props.tasks.map(t => TaskMapper(t, () => this.openModal()));
         let modal = null;
         if(this.state.isModalActive){
-            modal = <Modal onClose={() => this.closeModal()} status={this.props.status}/>
+            modal = <Modal maxId={this.props.maxId} onClose={() => this.closeModal()} status={this.props.status} projectId = {this.props.projectId} onChange={() => this.props.onChange()}/>
         }
-        const tasks = this.props.tasks.map(t => TaskMapper(t, () => this.openModal()));
         return(
             <div>
                 <table className="taskTable">
@@ -103,6 +112,7 @@ class Task extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            id: this.props.id,
             title: this.props.title,
             description: this.props.description,
             deadline: this.props.deadline,
