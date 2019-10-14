@@ -21,7 +21,7 @@ class Project extends React.Component{
 
     render(){
         return(
-            <tr onClick={() => this.handleClick()}>
+            <tr className="rowLink" onClick={() => this.handleClick()}>
                 <td className="projectBar">
                     {this.state.name} <br />
                     {this.state.description}

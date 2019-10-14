@@ -3,6 +3,5 @@
 }
 
 .rowLink{
-    text-decoration: none;
-    
+    cursor: pointer;
 }
