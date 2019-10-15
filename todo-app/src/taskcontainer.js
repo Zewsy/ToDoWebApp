@@ -142,10 +142,10 @@ class TaskTable extends React.Component{
         const tasks = this.props.tasks.map(t => TaskMapper(t, this.openEditModal));
         let modal = null;
         if(this.state.isModalActive){
-            modal = <Modal editingTaskData={this.state.editingTaskData} onClose={this.closeModal} onSubmit={this.onAdd}/>
+            modal = <Modal title="Hozzáadás" editingTaskData={this.state.editingTaskData} onClose={this.closeModal} onSubmit={this.onAdd}/>
         }
         else if(this.state.isEditModalActive){
-            modal = <Modal editingTaskData={this.state.editingTaskData} onClose={this.closeModal} onSubmit={this.onEdit}/>
+            modal = <Modal title="Módosítás" editingTaskData={this.state.editingTaskData} onClose={this.closeModal} onSubmit={this.onEdit}/>
         }
         return(
             <div>

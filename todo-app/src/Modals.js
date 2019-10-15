@@ -44,14 +44,14 @@ class Modal extends React.Component{
             <div id="taskModal" className='modal'>
                 <div className="modal-content">
                     <span className="close-btn" onClick={() => this.props.onClose()}>&times;</span>
-                    <h4>Teendő hozzáadása</h4>
+                    <h4>Teendő {this.props.title.toLowerCase()}</h4>
                     <form onSubmit={this.handleSubmitClick}>
                         Cím: <input type="text" name="title" value={this.state.title} onChange={this.handleChange}/> <br />
                         Leírás: <input type="text" name="description" value={this.state.description} onChange={this.handleChange} /> <br />
                         Határidő: <input type="date" name="deadline" value={this.state.deadline} onChange={this.handleChange}/> <br />
                         Állapot: {statusSelect} <br />
                         Prioritás: <input type="number" name="priority" value={this.state.priority} onChange={this.handleChange} /> <br />
-                        <input type="submit" value="Hozzáadás"/>
+                        <input type="submit" value={this.props.title}/>
                     </form>
                 </div>
             </div>
