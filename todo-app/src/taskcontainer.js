@@ -65,6 +65,8 @@ class TaskTable extends React.Component{
         this.state = {
             isModalActive: false
         };
+
+        this.onAdd = this.onAdd.bind(this);
     }
 
     openModal(){
@@ -78,12 +80,31 @@ class TaskTable extends React.Component{
             isModalActive: false
         });
     }
+
+    onAdd(task){
+        const url = "http://localhost:3001/todos";
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: this.props.maxId + 1,
+                title: task.title,
+                description: task.description,
+                deadline: task.deadline,
+                status: task.status,
+                priority: parseInt(task.priority),
+                project: this.props.projectId
+            })
+        }).then(this.props.onChange);
+    }
     
     render(){
         const tasks = this.props.tasks.map(t => TaskMapper(t, () => this.openModal()));
         let modal = null;
         if(this.state.isModalActive){
-            modal = <Modal maxId={this.props.maxId} onClose={() => this.closeModal()} status={this.props.status} projectId = {this.props.projectId} onChange={() => this.props.onChange()}/>
+            modal = <Modal onClose={() => this.closeModal()} status={this.props.status} onSubmit={this.onAdd}/>
         }
         return(
             <div>
