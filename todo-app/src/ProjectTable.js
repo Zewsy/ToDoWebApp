@@ -10,6 +10,27 @@ class Project extends React.Component{
             name: this.props.name,
             description: this.props.description
         }
+
+        this.onDelClick = this.onDelClick.bind(this);
+    }
+
+    onDelClick(){
+        const url = "http://localhost:3001/todos/"
+        fetch(url)
+            .then(resp => resp.json())
+            .then(data => {
+                const idsToDelete = data.filter(t => {return t.project === this.state.id}).map(t => {return t.id});
+                idsToDelete.forEach(
+                    id => {
+                        fetch(url + id,{
+                            method: 'DELETE'
+                        })
+                    }
+                )
+            }).then(
+                fetch("http://localhost:3001/projects/" + this.state.id,{
+                method: 'DELETE'}).then(this.props.onDelete)
+            )
     }
 
     handleClick(){
@@ -21,10 +42,13 @@ class Project extends React.Component{
 
     render(){
         return(
-            <tr className="rowLink" onClick={() => this.handleClick()}>
-                <td className="projectBar">
+            <tr className="rowLink">
+                <td className="projectBar" onClick={() => this.handleClick()}>
                     {this.state.name} <br />
                     {this.state.description}
+                </td>
+                <td>
+                    <button onClick={this.onDelClick}>Törlés</button>
                 </td>
             </tr>
         );
@@ -37,15 +61,21 @@ class ProjectTable extends React.Component{
         this.state={
             projects: []
         };
+
+        this.onChange = this.onChange.bind(this);
     }
 
-    componentDidMount(){
+    onChange(){
         const url = "http://localhost:3001/projects";
         fetch(url)
             .then(resp => resp.json())
             .then(data =>
                 {this.setState({projects: data});
             })
+    }
+
+    componentDidMount(){
+        this.onChange();
     }
 
     handleAddClick(){
@@ -64,6 +94,7 @@ class ProjectTable extends React.Component{
                     description={p.description}
                     key={p.id}
                     history={this.props.history}
+                    onDelete={this.onChange}
             />
         )});
 
