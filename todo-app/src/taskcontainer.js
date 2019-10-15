@@ -13,7 +13,7 @@ function TaskMapper(task, clickHandler){
         status = {task.status}
         priority = {task.priority}
         project = {task.project}
-        onEditClick = {() => clickHandler()}
+        onEditClick = {clickHandler}
     />);
 }
 
@@ -50,10 +50,10 @@ class TaskContainer extends React.Component{
         const suspendedTasks = tasks.filter(t => {return t.status.match("Elhalasztva") && t.project === this.state.projectId});
         return(
             <div>
-                <TaskTable maxId={maxId} tasks={pendingTasks} status="Függőben" projectId={this.state.projectId} onChange={() => this.onChange()}/>
-                <TaskTable maxId={maxId} tasks={inProgressTasks} status="Folyamatban" projectId={this.state.projectId} onChange={() => this.onChange()}/>
-                <TaskTable maxId={maxId} tasks={doneTasks} status="Kész" projectId={this.state.projectId} onChange={() => this.onChange()}/>
-                <TaskTable maxId={maxId} tasks={suspendedTasks} status="Elhalasztva" projectId={this.state.projectId} onChange={() => this.onChange()}/>
+                <TaskTable maxId={maxId} tasks={pendingTasks} status="Függőben" projectId={this.state.projectId} onChange={this.onChange}/>
+                <TaskTable maxId={maxId} tasks={inProgressTasks} status="Folyamatban" projectId={this.state.projectId} onChange={this.onChange}/>
+                <TaskTable maxId={maxId} tasks={doneTasks} status="Kész" projectId={this.state.projectId} onChange={this.onChange}/>
+                <TaskTable maxId={maxId} tasks={suspendedTasks} status="Elhalasztva" projectId={this.state.projectId} onChange={this.onChange}/>
             </div>
         );
     }
@@ -63,26 +63,42 @@ class TaskTable extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            isModalActive: false
+            isModalActive: false,
+            isEditModalActive: false,
+            idOfEditingTask: 0
         };
 
         this.onAdd = this.onAdd.bind(this);
+        this.onEdit = this.onEdit.bind(this);
+        this.openEditModal = this.openEditModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+        this.openModal = this.openModal.bind(this);
     }
 
     openModal(){
         this.setState({
-            isModalActive: true
+            isModalActive: true,
+            isEditModalActive: false
+        });
+    }
+
+    openEditModal(id){
+        this.setState({
+            isModalActive: false,
+            isEditModalActive: true,
+            idOfEditingTask: id
         });
     }
 
     closeModal(){
         this.setState({
-            isModalActive: false
+            isModalActive: false,
+            isEditModalActive: false
         });
     }
 
     onAdd(task){
-        const url = "http://localhost:3001/todos";
+        const url = "http://localhost:3001/todos/";
         fetch(url, {
             method: 'POST',
             headers: {
@@ -99,17 +115,39 @@ class TaskTable extends React.Component{
             })
         }).then(this.props.onChange);
     }
+
+    onEdit(task){
+        const url = "http://localhost:3001/todos/" + this.state.idOfEditingTask;
+        fetch(url,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: this.state.idOfEditingTask,
+                title: task.title,
+                description: task.description,
+                deadline: task.deadline,
+                status: task.status,
+                priority: parseInt(task.priority),
+                project: this.props.projectId
+            })
+        }).then(this.props.onChange);
+    }
     
     render(){
-        const tasks = this.props.tasks.map(t => TaskMapper(t, () => this.openModal()));
+        const tasks = this.props.tasks.map(t => TaskMapper(t, this.openEditModal));
         let modal = null;
         if(this.state.isModalActive){
-            modal = <Modal onClose={() => this.closeModal()} status={this.props.status} onSubmit={this.onAdd}/>
+            modal = <Modal onClose={this.closeModal} status={this.props.status} onSubmit={this.onAdd}/>
+        }
+        else if(this.state.isEditModalActive){
+            modal = <Modal onClose={this.closeModal} status={this.props.status} onSubmit={this.onEdit}/>
         }
         return(
             <div>
                 <table className="taskTable">
-                    <StatusBar Name={this.props.status} onAddClick={() => this.openModal()}/>
+                    <StatusBar Name={this.props.status} onAddClick={this.openModal}/>
                     {tasks}
                 </table>
                 {modal}
@@ -132,26 +170,22 @@ class StatusBar extends React.Component{
 class Task extends React.Component{
     constructor(props){
         super(props);
-        this.state = {
-            id: this.props.id,
-            title: this.props.title,
-            description: this.props.description,
-            deadline: this.props.deadline,
-            status: this.props.status,
-            priority: this.props.priority,
-            project: this.props.project
-        }
+        this.handleClick = this.handleClick.bind(this);
     }
 
+    handleClick(){
+        const id = this.props.id;
+        this.props.onEditClick(id);
+    }
     render(){
-        const deadline = new Date(this.state.deadline);
+        const deadline = new Date(this.props.deadline);
         return(
             <tr className="task">
-                <button className="btnTaskEdit" onClick={() => this.props.onEditClick()}>
+                <button className="btnTaskEdit" onClick={this.handleClick}>
                     Edit
                 </button>
-                {this.state.title} <br />
-                {this.state.description} <br />
+                {this.props.title} <br />
+                {this.props.description} <br />
                 {deadline.toLocaleDateString()} <br />
             </tr>
         );
