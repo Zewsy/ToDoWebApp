@@ -65,7 +65,9 @@ class TaskTable extends React.Component{
         this.state = {
             isModalActive: false,
             isEditModalActive: false,
-            idOfEditingTask: 0
+            editingTaskData: {
+                status: this.props.status
+            }
         };
 
         this.onAdd = this.onAdd.bind(this);
@@ -78,22 +80,23 @@ class TaskTable extends React.Component{
     openModal(){
         this.setState({
             isModalActive: true,
-            isEditModalActive: false
+            isEditModalActive: false,
+            editingTaskData: {status: this.props.status}
         });
     }
 
-    openEditModal(id){
+    openEditModal(taskData){
         this.setState({
             isModalActive: false,
             isEditModalActive: true,
-            idOfEditingTask: id
+            editingTaskData: taskData
         });
     }
 
     closeModal(){
         this.setState({
             isModalActive: false,
-            isEditModalActive: false
+            isEditModalActive: false,
         });
     }
 
@@ -117,14 +120,14 @@ class TaskTable extends React.Component{
     }
 
     onEdit(task){
-        const url = "http://localhost:3001/todos/" + this.state.idOfEditingTask;
+        const url = "http://localhost:3001/todos/" + this.state.editingTaskData.id;
         fetch(url,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: this.state.idOfEditingTask,
+                id: this.state.editingTaskData.id,
                 title: task.title,
                 description: task.description,
                 deadline: task.deadline,
@@ -139,10 +142,10 @@ class TaskTable extends React.Component{
         const tasks = this.props.tasks.map(t => TaskMapper(t, this.openEditModal));
         let modal = null;
         if(this.state.isModalActive){
-            modal = <Modal onClose={this.closeModal} status={this.props.status} onSubmit={this.onAdd}/>
+            modal = <Modal editingTaskData={this.state.editingTaskData} onClose={this.closeModal} onSubmit={this.onAdd}/>
         }
         else if(this.state.isEditModalActive){
-            modal = <Modal onClose={this.closeModal} status={this.props.status} onSubmit={this.onEdit}/>
+            modal = <Modal editingTaskData={this.state.editingTaskData} onClose={this.closeModal} onSubmit={this.onEdit}/>
         }
         return(
             <div>
@@ -174,8 +177,13 @@ class Task extends React.Component{
     }
 
     handleClick(){
-        const id = this.props.id;
-        this.props.onEditClick(id);
+        const taskData = {id: this.props.id,
+                        title: this.props.title,
+                        description: this.props.description,
+                        deadline: this.props.deadline,
+                        status: this.props.status,
+                        priority: this.props.priority};
+        this.props.onEditClick(taskData);
     }
     render(){
         const deadline = new Date(this.props.deadline);

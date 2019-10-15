@@ -6,7 +6,11 @@ import { withRouter } from 'react-router';
 class Modal extends React.Component{
     constructor(props){
         super(props);
-        this.state = {status: this.props.status, title: '', description: '', priority: '', deadline: ''};
+        this.state = {status: this.props.editingTaskData.status,
+                      title: this.props.editingTaskData.title,
+                      description: this.props.editingTaskData.description,
+                      priority: this.props.editingTaskData.priority,
+                      deadline: this.props.editingTaskData.deadline};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmitClick = this.handleSubmitClick.bind(this);
