@@ -49,7 +49,10 @@ class ProjectTable extends React.Component{
     }
 
     handleAddClick(){
-        this.props.history.push('/create-project');
+        this.props.history.push({
+            pathname: '/create-project',
+            state: {nextId: this.state.projects.length + 1}
+        });
     }
 
     render(){
