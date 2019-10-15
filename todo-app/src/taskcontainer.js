@@ -3,7 +3,7 @@ import Modal from './Modals';
 import './tasks.css';
 import { withRouter } from 'react-router'
 
-function TaskMapper(task, clickHandler){
+function TaskMapper(task, editClickHandler, delHandler){
     return (
     <Task
         id = {task.id}
@@ -13,7 +13,8 @@ function TaskMapper(task, clickHandler){
         status = {task.status}
         priority = {task.priority}
         project = {task.project}
-        onEditClick = {clickHandler}
+        onEditClick = {editClickHandler}
+        onDelete = {delHandler}
     />);
 }
 
@@ -139,7 +140,7 @@ class TaskTable extends React.Component{
     }
     
     render(){
-        const tasks = this.props.tasks.map(t => TaskMapper(t, this.openEditModal));
+        const tasks = this.props.tasks.map(t => TaskMapper(t, this.openEditModal, this.props.onChange));
         let modal = null;
         if(this.state.isModalActive){
             modal = <Modal title="Hozzáadás" editingTaskData={this.state.editingTaskData} onClose={this.closeModal} onSubmit={this.onAdd}/>
@@ -150,7 +151,7 @@ class TaskTable extends React.Component{
         return(
             <div>
                 <table className="taskTable">
-                    <StatusBar Name={this.props.status} onAddClick={this.openModal}/>
+                    <StatusBar Name={this.props.status} onAddClick={this.openModal} />
                     {tasks}
                 </table>
                 {modal}
@@ -173,10 +174,18 @@ class StatusBar extends React.Component{
 class Task extends React.Component{
     constructor(props){
         super(props);
-        this.handleClick = this.handleClick.bind(this);
+        this.handleEditClick = this.handleEditClick.bind(this);
+        this.handleDelClick = this.handleDelClick.bind(this);
     }
 
-    handleClick(){
+    handleDelClick(){
+        const url = "http://localhost:3001/todos/" + this.props.id;
+        fetch(url,{
+            method: 'DELETE'
+        }).then(this.props.onDelete);
+    }
+
+    handleEditClick(){
         const taskData = {id: this.props.id,
                         title: this.props.title,
                         description: this.props.description,
@@ -185,13 +194,18 @@ class Task extends React.Component{
                         priority: this.props.priority};
         this.props.onEditClick(taskData);
     }
+    
     render(){
         const deadline = new Date(this.props.deadline);
         return(
             <tr className="task">
-                <button className="btnTaskEdit" onClick={this.handleClick}>
-                    Edit
+                <button className="btnTaskEdit" onClick={this.handleEditClick}>
+                    Módosítás
                 </button>
+                <button classNamme="btnDel" onClick={this.handleDelClick}>
+                    Törlés
+                </button>
+                <br />
                 {this.props.title} <br />
                 {this.props.description} <br />
                 {deadline.toLocaleDateString()} <br />
