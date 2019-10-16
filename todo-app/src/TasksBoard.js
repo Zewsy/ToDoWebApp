@@ -1,12 +1,13 @@
 import React from 'react';
 import TaskContainer from './taskcontainer';
 import { withRouter } from 'react-router';
+import './taskBoard.css';
 
 function TasksBoard(props){
         return(
             <div>
                 <ProjectOptionsBar history={props.history} />
-                <ProjectTasksTable />
+                <ProjectTasksTable name={props.location.state.name}/>
             </div>
         );
 }
@@ -30,9 +31,10 @@ class ProjectOptionsBar extends React.Component{
     render(){
         return(
             <div>
-                Projekt Tábla
-                <button onClick={this.handleAddClick}>Projekt hozzáadása</button>
-                <button onClick={this.handleChooseClick}>Projekt kiválasztása</button>
+                <h2>Projekt Tábla
+                    <button className="projectTitleFirstButton" onClick={this.handleAddClick}>Projekt hozzáadása</button>
+                    <button onClick={this.handleChooseClick}>Projekt kiválasztása</button>
+                </h2>
             </div>
         );
     }
@@ -41,7 +43,7 @@ class ProjectOptionsBar extends React.Component{
 function ProjectTasksTable(props){
         return(
             <div>
-                TestProject
+                <h3>{props.name}</h3>
                 <TaskContainer />
             </div>
         );

@@ -37,7 +37,8 @@ class Project extends React.Component{
     handleClick(){
         this.props.history.push({
             pathname: '/tasks',
-            state: {selectedProject: this.state.id}
+            state: {selectedProject: this.state.id,
+                    name: this.state.name}
         });
     }
 
