@@ -44,10 +44,18 @@ class TaskContainer extends React.Component{
 
     render(){
         const tasks = this.state.tasks;
-        const pendingTasks = tasks.filter(t => {return t.status.match("Függőben") && t.project === this.state.projectId});
-        const inProgressTasks = tasks.filter(t => {return t.status.match("Folyamatban") && t.project === this.state.projectId});
-        const doneTasks = tasks.filter(t => {return t.status.match("Kész") && t.project === this.state.projectId});
-        const suspendedTasks = tasks.filter(t => {return t.status.match("Elhalasztva") && t.project === this.state.projectId});
+        const taskComparator = (t1, t2) => {
+            if(t1.priority < t2.priority)
+                return -1;
+            else if(t1.priority > t2.priority)
+                return 1;
+            else
+                return 0;
+        }
+        const pendingTasks = tasks.filter(t => {return t.status.match("Függőben") && t.project === this.state.projectId}).sort((t1, t2) => taskComparator(t1, t2));
+        const inProgressTasks = tasks.filter(t => {return t.status.match("Folyamatban") && t.project === this.state.projectId}).sort((t1, t2) => taskComparator(t1, t2));
+        const doneTasks = tasks.filter(t => {return t.status.match("Kész") && t.project === this.state.projectId}).sort((t1, t2) => taskComparator(t1, t2));
+        const suspendedTasks = tasks.filter(t => {return t.status.match("Elhalasztva") && t.project === this.state.projectId}).sort((t1, t2) => taskComparator(t1, t2));
         return(
             <div>
                 <TaskTable projectId={this.state.projectId} status="Függőben" tasks={pendingTasks} onChange={this.handleChange}/>
