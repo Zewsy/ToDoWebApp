@@ -11,10 +11,11 @@ class Project extends React.Component{
             description: this.props.description
         }
 
-        this.onDelClick = this.onDelClick.bind(this);
+        this.handleDelClick = this.handleDelClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
-    onDelClick(){
+    handleDelClick(){
         const url = "http://localhost:3001/todos/"
         fetch(url)
             .then(resp => resp.json())
@@ -43,12 +44,12 @@ class Project extends React.Component{
     render(){
         return(
             <tr className="rowLink">
-                <td className="projectBar" onClick={() => this.handleClick()}>
+                <td className="projectBar" onClick={this.handleClick}>
                     {this.state.name} <br />
                     {this.state.description}
                 </td>
                 <td>
-                    <button onClick={this.onDelClick}>Törlés</button>
+                    <button onClick={this.handleDelClick}>Törlés</button>
                 </td>
             </tr>
         );
@@ -62,10 +63,11 @@ class ProjectTable extends React.Component{
             projects: []
         };
 
-        this.onChange = this.onChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleAddClick = this.handleAddClick.bind(this);
     }
 
-    onChange(){
+    handleChange(){
         const url = "http://localhost:3001/projects";
         fetch(url)
             .then(resp => resp.json())
@@ -75,7 +77,7 @@ class ProjectTable extends React.Component{
     }
 
     componentDidMount(){
-        this.onChange();
+        this.handleChange();
     }
 
     handleAddClick(){
@@ -94,7 +96,7 @@ class ProjectTable extends React.Component{
                     description={p.description}
                     key={p.id}
                     history={this.props.history}
-                    onDelete={this.onChange}
+                    onDelete={this.handleChange}
             />
         )});
 
@@ -106,7 +108,7 @@ class ProjectTable extends React.Component{
                         {projects}
                     </tbody>
                 </table>
-                <button className="btnAddProject" onClick={() => this.handleAddClick()}>Projekt hozzáadása</button>
+                <button className="btnAddProject" onClick={this.handleAddClick}>Projekt hozzáadása</button>
             </div>
         );
     }

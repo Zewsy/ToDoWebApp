@@ -43,7 +43,7 @@ class Modal extends React.Component{
         return(
             <div id="taskModal" className='modal'>
                 <div className="modal-content">
-                    <span className="close-btn" onClick={() => this.props.onClose()}>&times;</span>
+                    <span className="close-btn" onClick={this.props.onClose}>&times;</span>
                     <h4>Teendő {this.props.title.toLowerCase()}</h4>
                     <form onSubmit={this.handleSubmitClick}>
                         Cím: <input type="text" name="title" value={this.state.title} onChange={this.handleChange}/> <br />
