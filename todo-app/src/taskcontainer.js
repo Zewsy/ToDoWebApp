@@ -7,6 +7,7 @@ function TaskMapper(task, editClickHandler, delClickHandler){
     return (
     <Task
         id = {task.id}
+        key={task.id}
         title = {task.title}
         description = {task.description}
         deadline = {task.deadline}
@@ -157,8 +158,12 @@ class TaskTable extends React.Component{
         return(
             <div>
                 <table className="taskTable">
-                    <StatusBar Name={this.props.status} onAddClick={this.openModal} />
-                    {tasks}
+                    <thead>
+                        <StatusBar Name={this.props.status} onAddClick={this.openModal} />
+                    </thead>
+                    <tbody>
+                        {tasks}
+                    </tbody>
                 </table>
                 {modal}
             </div>
@@ -166,15 +171,15 @@ class TaskTable extends React.Component{
     }
 }
 
-class StatusBar extends React.Component{
-    render(){
-        return(
+function StatusBar(props){
+    return(
+        <tr>
             <th>
-                {this.props.Name}
-                <button id="btnAddTask" onClick={this.props.onAddClick}>+</button>
+                {props.Name}
+                <button id="btnAddTask" onClick={props.onAddClick}>+</button>
             </th>
-        );
-    }
+        </tr>
+    );
 }
 
 class Task extends React.Component{
@@ -205,16 +210,17 @@ class Task extends React.Component{
         const deadline = new Date(this.props.deadline);
         return(
             <tr className="task">
-                <button className="btnTaskEdit" onClick={this.handleEditClick}>
-                    Módosítás
-                </button>
-                <button classNamme="btnDel" onClick={this.handleDelClick}>
-                    Törlés
-                </button>
-                <br />
-                {this.props.title} <br />
-                {this.props.description} <br />
-                {deadline.toLocaleDateString()} <br />
+                <td>
+                    <button className="btnTaskEdit" onClick={this.handleEditClick}>
+                        Módosítás
+                    </button>
+                    <button className="btnDel" onClick={this.handleDelClick}>
+                        Törlés
+                    </button>
+                    <b>{this.props.title}</b> <br />
+                    <i>{this.props.description}</i> <br />
+                    {deadline.toLocaleDateString()} <br />
+                </td>
             </tr>
         );
     }

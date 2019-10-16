@@ -44,7 +44,7 @@ class Project extends React.Component{
 
     render(){
         return(
-            <tr className="rowLink">
+            <tr>
                 <td className="projectBar" onClick={this.handleClick}>
                     {this.state.name} <br />
                     {this.state.description}
