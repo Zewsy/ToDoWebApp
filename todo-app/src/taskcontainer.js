@@ -44,18 +44,16 @@ class TaskContainer extends React.Component{
 
     render(){
         const tasks = this.state.tasks;
-        var maxId = tasks.length;
         const pendingTasks = tasks.filter(t => {return t.status.match("Függőben") && t.project === this.state.projectId});
         const inProgressTasks = tasks.filter(t => {return t.status.match("Folyamatban") && t.project === this.state.projectId});
         const doneTasks = tasks.filter(t => {return t.status.match("Kész") && t.project === this.state.projectId});
         const suspendedTasks = tasks.filter(t => {return t.status.match("Elhalasztva") && t.project === this.state.projectId});
-        const columnBasicData = {maxId: maxId, projectId: this.state.projectId};
         return(
             <div>
-                <TaskTable basicData={columnBasicData} status="Függőben" tasks={pendingTasks} onChange={this.onChange}/>
-                <TaskTable basicData={columnBasicData} status="Folyamatban" tasks={inProgressTasks} onChange={this.onChange}/>
-                <TaskTable basicData={columnBasicData} status="Kész" tasks={doneTasks} onChange={this.onChange}/>
-                <TaskTable basicData={columnBasicData} status="Elhalasztva" tasks={suspendedTasks} onChange={this.onChange}/>
+                <TaskTable projectId={this.state.projectId} status="Függőben" tasks={pendingTasks} onChange={this.handleChange}/>
+                <TaskTable projectId={this.state.projectId} status="Folyamatban" tasks={inProgressTasks} onChange={this.handleChange}/>
+                <TaskTable projectId={this.state.projectId} status="Kész" tasks={doneTasks} onChange={this.handleChange}/>
+                <TaskTable projectId={this.state.projectId} status="Elhalasztva" tasks={suspendedTasks} onChange={this.handleChange}/>
             </div>
         );
     }
@@ -68,7 +66,7 @@ class TaskTable extends React.Component{
             isModalActive: false,
             isEditModalActive: false,
             editingTaskData: {
-                status: this.props.basicData.status
+                status: this.props.status
             }
         };
 
@@ -98,7 +96,7 @@ class TaskTable extends React.Component{
         this.setState({
             isModalActive: false,
             isEditModalActive: false,
-            editingTaskData: {status: this.props.basicData.status}
+            editingTaskData: {status: this.props.status}
         });
     }
 
@@ -110,15 +108,14 @@ class TaskTable extends React.Component{
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: this.props.basicData.maxId + 1,
                 title: task.title,
                 description: task.description,
                 deadline: task.deadline,
                 status: task.status,
                 priority: parseInt(task.priority),
-                project: this.props.basicData.projectId
+                project: this.props.projectId
             })
-        }).then(this.props.onChange);
+        }).then(() => this.props.onChange());
     }
 
     handleEdit(task){
@@ -137,7 +134,7 @@ class TaskTable extends React.Component{
                 priority: parseInt(task.priority),
                 project: this.props.projectId
             })
-        }).then(this.props.onChange);
+        }).then(() => this.props.onChange());
     }
     
     render(){
