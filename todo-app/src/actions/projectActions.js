@@ -21,7 +21,7 @@ export function fetchProjects() {
     fetch(url)
         .then(res => res.json())
         .then(res => {
-            dispatch(fetchProjectsSuccess(res))
+            dispatch(fetchProjectsSuccess(res));
         })
   }
 }
@@ -30,6 +30,21 @@ export function deleteProject(projectId){
   return function(dispatch){
     fetch(url + projectId,
         {method: 'DELETE'})
-      .then(dispatch(deleteProjectSuccess(projectId)))
+      .then(dispatch(deleteProjectSuccess(projectId)))  //Működik nélküle?
+  }
+}
+
+export function addProject(project){
+  return function(dispatch){
+      fetch(url,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: project.name,
+          description: project.desc
+        })
+      }).then(dispatch(fetchProjects())); 
   }
 }

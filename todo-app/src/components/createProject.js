@@ -1,5 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import {addProject} from '../actions/projectActions';
+import {connect} from 'react-redux';
 
 class CreateProject extends React.Component{
     constructor(props){
@@ -15,17 +17,9 @@ class CreateProject extends React.Component{
     
     handleSubmitClick(e){
         e.preventDefault();
-        const url = "http://localhost:3001/projects";
-        fetch(url,{
-            method: 'POST',
-            headers: {
-                    'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                name: this.state.name,
-                description: this.state.desc
-            })
-        }).then(() => this.props.history.push('/'));
+        const project = {name: this.state.name, desc: this.state.desc};
+        this.props.addProject(project);
+        this.props.history.push('/');
     }
     
     handleChange(e){
@@ -37,17 +31,23 @@ class CreateProject extends React.Component{
     }
 
     render(){
-        return(
-            <div>
-                <h1>Projekt hozzáadása</h1>
-                <form onSubmit={this.handleSubmitClick} className="formCreateProject">
-                    Név: <input name="name" type="text" value={this.state.name} onChange={this.handleChange}/> <br />
-                    Leírás: <input name="desc" type="text" value={this.state.desc} onChange={this.handleChange}/> <br />
-                    <input type="submit" value="Projekt hozzáadása"/>
-                </form>
-            </div>
-        );
+            return(
+                <div>
+                    <h1>Projekt hozzáadása</h1>
+                    <form onSubmit={this.handleSubmitClick} className="formCreateProject">
+                        Név: <input name="name" type="text" value={this.state.name} onChange={this.handleChange}/> <br />
+                        Leírás: <input name="desc" type="text" value={this.state.desc} onChange={this.handleChange}/> <br />
+                        <input type="submit" value="Projekt hozzáadása"/>
+                    </form>
+                </div>
+            );
     }
 }
 
-export default withRouter(CreateProject);
+function mapDispatchToProps(dispatch){
+    return {
+        addProject: (p) => dispatch(addProject(p))
+    }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(CreateProject));
