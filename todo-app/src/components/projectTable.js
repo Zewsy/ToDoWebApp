@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import {connect} from 'react-redux';
 
 import {fetchProjects, deleteProject} from '../actions/projectActions';
-import {getProjects} from '../reducers/projectReducers';
+import {getProjects} from '../reducers/projectsReducer';
 
 class Project extends React.Component{
     constructor(props){
@@ -111,7 +111,7 @@ class ProjectTable extends React.Component{
 
 function mapStateToProps(state){
     return{
-        projects: getProjects(state)
+        projects: getProjects(state.projects)
     }
 }
 
