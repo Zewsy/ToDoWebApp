@@ -22,7 +22,6 @@ class CreateProject extends React.Component{
                     'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: this.props.location.state.nextId,
                 name: this.state.name,
                 description: this.state.desc
             })

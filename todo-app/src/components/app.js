@@ -1,8 +1,8 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import ProjectTable from './ProjectTable'
-import CreateProject from './CreateProject'
-import TasksBoard from './TasksBoard'
+import ProjectTable from './projectTable'
+import CreateProject from './createProject'
+import TasksBoard from './tasksBoard'
 
 const App = () => (
   <div>
@@ -16,4 +16,4 @@ const App = () => (
   </div>
 )
 
-export default App
+export default App;

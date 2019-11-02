@@ -1,6 +1,10 @@
 import React from 'react';
 import './projects.css';
 import { withRouter } from 'react-router';
+import {connect} from 'react-redux';
+
+import {fetchProjects} from '../actions/projectActions';
+import {getProjects} from '../reducers/projectReducers';
 
 class Project extends React.Component{
     constructor(props){
@@ -60,36 +64,27 @@ class Project extends React.Component{
 class ProjectTable extends React.Component{
     constructor(props){
         super(props);
-        this.state={
-            projects: []
-        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleAddClick = this.handleAddClick.bind(this);
     }
 
     handleChange(){
-        const url = "http://localhost:3001/projects";
-        fetch(url)
-            .then(resp => resp.json())
-            .then(data =>
-                {this.setState({projects: data});
-            })
+        this.props.fetchProjects();
     }
 
     componentDidMount(){
-        this.handleChange();
+        this.props.fetchProjects();
     }
 
     handleAddClick(){
         this.props.history.push({
-            pathname: '/create-project',
-            state: {nextId: this.state.projects.length + 1}
+            pathname: '/create-project'
         });
     }
 
     render(){
-        const projects = this.state.projects.map(
+        const projects = this.props.projects.map(
         p => {
         return (
             <Project id={p.id}
@@ -115,4 +110,19 @@ class ProjectTable extends React.Component{
     }
 }
 
-export default withRouter(ProjectTable);
+function mapStateToProps(state){
+    return{
+        projects: getProjects(state)
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        fetchProjects: () => dispatch(fetchProjects())
+    }
+}
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ProjectTable ));

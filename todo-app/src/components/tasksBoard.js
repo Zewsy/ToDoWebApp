@@ -1,5 +1,5 @@
 import React from 'react';
-import TaskContainer from './taskcontainer';
+import TaskContainer from './taskContainer';
 import { withRouter } from 'react-router';
 import './taskBoard.css';
 

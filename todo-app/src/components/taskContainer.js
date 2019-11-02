@@ -1,6 +1,6 @@
 import React from 'react';
-import Modal from './Modals';
-import './taskcontainer.css';
+import Modal from './modals';
+import './taskContainer.css';
 import { withRouter } from 'react-router'
 
 function TaskMapper(task, editClickHandler, delClickHandler){
