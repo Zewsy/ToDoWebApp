@@ -3,7 +3,7 @@ import './projects.css';
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux';
 
-import {fetchProjects} from '../actions/projectActions';
+import {fetchProjects, deleteProject} from '../actions/projectActions';
 import {getProjects} from '../reducers/projectReducers';
 
 class Project extends React.Component{
@@ -33,8 +33,7 @@ class Project extends React.Component{
                     }
                 )
             }).then(
-                fetch("http://localhost:3001/projects/" + this.state.id,{
-                method: 'DELETE'}).then(this.props.onDelete)
+                this.props.deleteProject(this.state.id)
             )
     }
 
@@ -92,7 +91,7 @@ class ProjectTable extends React.Component{
                     description={p.description}
                     key={p.id}
                     history={this.props.history}
-                    onDelete={this.handleChange}
+                    deleteProject={this.props.deleteProject}
             />
         )});
 
@@ -118,7 +117,8 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return {
-        fetchProjects: () => dispatch(fetchProjects())
+        fetchProjects: () => dispatch(fetchProjects()),
+        deleteProject: (id) => dispatch(deleteProject(id))
     }
 }
 

@@ -1,4 +1,4 @@
-import {FETCH_PROJECTS_SUCCESS} from '../actions/projectActions';
+import {FETCH_PROJECTS_SUCCESS, DELETE_PROJECT_SUCCESS} from '../actions/projectActions';
 
 const initialState = {
     projects: []
@@ -8,8 +8,11 @@ export function projectsReducer(state = initialState, action){
     switch(action.type){
         case FETCH_PROJECTS_SUCCESS:
             return {
-                ...state,
                 projects: action.data
+            }
+        case DELETE_PROJECT_SUCCESS:
+            return {
+                projects: state.projects.filter((e) => e.id !== action.id)
             }
         default:
             return state;
