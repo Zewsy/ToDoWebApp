@@ -1,3 +1,5 @@
+import { fetchProjects } from "./projectActions";
+
 export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS';
 const url = "http://localhost:3001/todos/";
@@ -32,5 +34,23 @@ export function fetchTasks(){
         .then(res => {
             dispatch(fetchTasksSucceess(res));
         })
+    }
+}
+
+export function addTask(task){
+    return function(dispatch){
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: task.title,
+                description: task.description,
+                deadline: task.deadline,
+                status: task.status,
+                priority: parseInt(task.priority),
+                project: task.project
+            })}).then(() => dispatch(fetchTasks())) //del?
     }
 }
