@@ -1,3 +1,5 @@
+import { deleteTask, fetchTasks } from "./taskActions";
+
 export const FETCH_PROJECTS_SUCCESS = 'FETCH_PROJECTS_SUCCESS';
 export const DELETE_PROJECT_SUCCESS = 'DELETE_PROJECT_SUCCESS';
 const url = "http://localhost:3001/projects/";
@@ -27,10 +29,19 @@ export function fetchProjects() {
 }
 
 export function deleteProject(projectId){
-  return function(dispatch){
-    fetch(url + projectId,
-        {method: 'DELETE'})
-      .then(() => dispatch(deleteProjectSuccess(projectId)))
+  return function(dispatch, getState){
+    dispatch(fetchTasks()).then(
+      () => {
+        const tasks = getState().tasks.tasks;
+        const idsToDelete = tasks.filter(t => {return t.project === projectId}).map(t => {return t.id});
+        idsToDelete.forEach(
+          id => {dispatch(deleteTask(id))}
+        )
+        fetch(url + projectId,
+            {method: 'DELETE'})
+        .then(() => dispatch(deleteProjectSuccess(projectId))) 
+      }
+    )
   }
 }
 

@@ -20,21 +20,7 @@ class Project extends React.Component{
     }
 
     handleDelClick(){
-        const url = "http://localhost:3001/todos/"
-        fetch(url)
-            .then(resp => resp.json())
-            .then(data => {
-                const idsToDelete = data.filter(t => {return t.project === this.state.id}).map(t => {return t.id});
-                idsToDelete.forEach(
-                    id => {
-                        fetch(url + id,{
-                            method: 'DELETE'
-                        })
-                    }
-                )
-            }).then(
-                this.props.deleteProject(this.state.id)
-            )
+        this.props.deleteProject(this.state.id);
     }
 
     handleClick(){

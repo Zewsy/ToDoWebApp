@@ -27,7 +27,7 @@ export function deleteTask(taskId){
 
 export function fetchTasks(){
     return function(dispatch){
-        fetch(url)
+        return fetch(url)
         .then(res => res.json())
         .then(res => {
             dispatch(fetchTasksSuccess(res));
