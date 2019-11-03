@@ -1,6 +1,5 @@
 export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS';
-export const ADD_TASK_SUCCESS = 'ADD_TASK_SUCCESS';
 const url = "http://localhost:3001/todos/";
 
 function deleteTaskSuccess(taskId){
@@ -14,13 +13,6 @@ function fetchTasksSuccess(data){
     return{
         type: FETCH_TASKS_SUCCESS,
         data: data
-    }
-}
-
-function addTaskSuccess(task){
-    return{
-        type: ADD_TASK_SUCCESS,
-        task: task
     }
 }
 
