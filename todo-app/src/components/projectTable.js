@@ -6,6 +6,13 @@ import {connect} from 'react-redux';
 import {fetchProjects, deleteProject} from '../actions/projectActions';
 import {getProjects} from '../reducers/projectsReducer';
 
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import CardActionArea from '@material-ui/core/CardActionArea';
+
 class Project extends React.Component{
     constructor(props){
         super(props);
@@ -33,15 +40,19 @@ class Project extends React.Component{
 
     render(){
         return(
-            <tr>
-                <td className="projectBar" onClick={this.handleClick}>
-                    {this.state.name} <br />
-                    {this.state.description}
-                </td>
-                <td>
-                    <button onClick={this.handleDelClick}>Törlés</button>
-                </td>
-            </tr>
+            <Card>
+                <CardActionArea onClick={this.handleClick}>
+                    <CardContent>
+                        <Typography>
+                            {this.state.name} <br />
+                            {this.state.description}
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+                <CardActions>
+                    <Button size='small' onClick={this.handleDelClick}>Törlés</Button>
+                </CardActions>
+            </Card>
         );
     }
 }
