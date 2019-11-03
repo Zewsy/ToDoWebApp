@@ -11,7 +11,7 @@ class Task extends React.Component{
 
     handleDelClick(){
         this.props.deleteTask(this.props.id);
-        this.props.onDelete();  //TODO
+        this.props.onDelete();
     }
 
     handleEditClick(){
