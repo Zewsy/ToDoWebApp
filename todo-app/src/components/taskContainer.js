@@ -3,6 +3,9 @@ import Modal from './modals';
 import './taskContainer.css';
 import { withRouter } from 'react-router';
 import Task from './task';
+import { getTasks } from '../reducers/tasksReducer';
+import {connect} from 'react-redux';
+import {fetchTasks} from '../actions/taskActions';
 
 function TaskMapper(task, editClickHandler, delClickHandler){
     return (
@@ -32,20 +35,15 @@ class TaskContainer extends React.Component{
     }
 
     handleChange(){
-        const url = "http://localhost:3001/todos"
-        fetch(url)
-            .then(resp => resp.json())
-            .then(data => {
-                this.setState({tasks: data});
-            })
+       this.props.fetchTasks();
     }
 
     componentDidMount(){
-        this.handleChange();
+        this.props.fetchTasks();
     }
 
     render(){
-        const tasks = this.state.tasks;
+        const tasks = this.props.tasks;
         const taskComparator = (t1, t2) => {
             if(t1.priority < t2.priority)
                 return -1;
@@ -183,4 +181,16 @@ function StatusBar(props){
     );
 }
 
-export default withRouter(TaskContainer);
+function mapStateToProps(state){
+    return{
+        tasks: getTasks(state.tasks)
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        fetchTasks: () => dispatch(fetchTasks())
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TaskContainer));
