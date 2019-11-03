@@ -1,6 +1,6 @@
 import React from 'react';
 import Task from './task';
-import Modal from './modals';
+import Modal from './modal';
 import {connect} from 'react-redux';
 import {addTask, editTask} from '../actions/taskActions';
 

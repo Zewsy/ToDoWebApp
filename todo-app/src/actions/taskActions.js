@@ -1,5 +1,6 @@
 export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS';
+export const ADD_TASK_SUCCESS = 'ADD_TASK_SUCCESS';
 const url = "http://localhost:3001/todos/";
 
 function deleteTaskSuccess(taskId){
@@ -9,10 +10,17 @@ function deleteTaskSuccess(taskId){
     }
 }
 
-function fetchTasksSucceess(data){
+function fetchTasksSuccess(data){
     return{
         type: FETCH_TASKS_SUCCESS,
         data: data
+    }
+}
+
+function addTaskSuccess(task){
+    return{
+        type: ADD_TASK_SUCCESS,
+        task: task
     }
 }
 
@@ -30,7 +38,7 @@ export function fetchTasks(){
         fetch(url)
         .then(res => res.json())
         .then(res => {
-            dispatch(fetchTasksSucceess(res));
+            dispatch(fetchTasksSuccess(res));
         })
     }
 }
@@ -49,7 +57,7 @@ export function addTask(task){
                 status: task.status,
                 priority: parseInt(task.priority),
                 project: task.project
-            })}).then(() => dispatch(fetchTasks())) //del?
+            })}).then(() => dispatch(fetchTasks()))
     }
 }
 

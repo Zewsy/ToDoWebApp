@@ -30,7 +30,7 @@ export function deleteProject(projectId){
   return function(dispatch){
     fetch(url + projectId,
         {method: 'DELETE'})
-      .then(() => dispatch(deleteProjectSuccess(projectId)))  //Működik nélküle?
+      .then(() => dispatch(deleteProjectSuccess(projectId)))
   }
 }
 
@@ -45,6 +45,6 @@ export function addProject(project){
           name: project.name,
           description: project.desc
         })
-      }).then(() => dispatch(fetchProjects()));   //tÖRLÉS?
+      }).then(() => dispatch(fetchProjects()));
   }
 }

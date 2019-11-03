@@ -1,5 +1,5 @@
 import React from 'react';
-import './modals.css';
+import './modal.css';
 import { withRouter } from 'react-router';
 
 
