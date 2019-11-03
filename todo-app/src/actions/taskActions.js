@@ -1,5 +1,3 @@
-import { fetchProjects } from "./projectActions";
-
 export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS';
 const url = "http://localhost:3001/todos/";
@@ -52,5 +50,25 @@ export function addTask(task){
                 priority: parseInt(task.priority),
                 project: task.project
             })}).then(() => dispatch(fetchTasks())) //del?
+    }
+}
+
+export function editTask(task){
+    return function(dispatch){
+        fetch(url + task.id,{
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: task.id,
+                title: task.title,
+                description: task.description,
+                deadline: task.deadline,
+                status: task.status,
+                priority: parseInt(task.priority),
+                project: task.project
+            })
+        }).then(() => dispatch(fetchTasks()))   //del?
     }
 }

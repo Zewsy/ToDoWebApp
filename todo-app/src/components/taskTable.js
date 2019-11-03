@@ -2,7 +2,7 @@ import React from 'react';
 import Task from './task';
 import Modal from './modals';
 import {connect} from 'react-redux';
-import {addTask} from '../actions/taskActions';
+import {addTask, editTask} from '../actions/taskActions';
 
 function TaskMapper(task, editClickHandler, delClickHandler){
     return (
@@ -67,22 +67,9 @@ class TaskTable extends React.Component{
     }
 
     handleEdit(task){
-        const url = "http://localhost:3001/todos/" + this.state.editingTaskData.id;
-        fetch(url,{
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: this.state.editingTaskData.id,
-                title: task.title,
-                description: task.description,
-                deadline: task.deadline,
-                status: task.status,
-                priority: parseInt(task.priority),
-                project: this.props.projectId
-            })
-        }).then(() => this.props.onChange());
+        task.id = this.state.editingTaskData.id;
+        task.project = this.props.projectId;
+        this.props.editTask(task);
     }
     
     render(){
@@ -123,7 +110,8 @@ function StatusBar(props){
 
 function mapDispatchToProps(dispatch){
     return{
-        addTask: (task) => dispatch(addTask(task))
+        addTask: (task) => dispatch(addTask(task)),
+        editTask: (task) => dispatch(editTask(task))
     }
 }
 
