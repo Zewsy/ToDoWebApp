@@ -1,7 +1,8 @@
 import React from 'react';
 import Modal from './modals';
 import './taskContainer.css';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
+import Task from './task';
 
 function TaskMapper(task, editClickHandler, delClickHandler){
     return (
@@ -180,50 +181,6 @@ function StatusBar(props){
             </th>
         </tr>
     );
-}
-
-class Task extends React.Component{
-    constructor(props){
-        super(props);
-        this.handleEditClick = this.handleEditClick.bind(this);
-        this.handleDelClick = this.handleDelClick.bind(this);
-    }
-
-    handleDelClick(){
-        const url = "http://localhost:3001/todos/" + this.props.id;
-        fetch(url,{
-            method: 'DELETE'
-        }).then(this.props.onDelete);
-    }
-
-    handleEditClick(){
-        const taskData = {id: this.props.id,
-                        title: this.props.title,
-                        description: this.props.description,
-                        deadline: this.props.deadline,
-                        status: this.props.status,
-                        priority: this.props.priority};
-        this.props.onEditClick(taskData);
-    }
-    
-    render(){
-        const deadline = new Date(this.props.deadline);
-        return(
-            <tr className="task">
-                <td>
-                    <button className="btnTaskEdit" onClick={this.handleEditClick}>
-                        Módosítás
-                    </button>
-                    <button className="btnDel" onClick={this.handleDelClick}>
-                        Törlés
-                    </button>
-                    <b>{this.props.title}</b> <br />
-                    <i>{this.props.description}</i> <br />
-                    {deadline.toLocaleDateString()} <br />
-                </td>
-            </tr>
-        );
-    }
 }
 
 export default withRouter(TaskContainer);
