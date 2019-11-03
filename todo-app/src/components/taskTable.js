@@ -27,6 +27,10 @@ class TaskTable extends React.Component{
             isModalActive: false,
             isEditModalActive: false,
             editingTaskData: {
+                title: '',
+                description: '',
+                priority: '',
+                deadline: '',
                 status: this.props.status
             }
         };
