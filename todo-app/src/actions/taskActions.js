@@ -77,6 +77,6 @@ export function editTask(task){
                 priority: parseInt(task.priority),
                 project: task.project
             })
-        }).then(() => dispatch(fetchTasks()))   //del?
+        }).then(() => dispatch(fetchTasks()))
     }
 }
