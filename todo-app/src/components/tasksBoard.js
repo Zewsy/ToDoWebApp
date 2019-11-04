@@ -1,9 +1,10 @@
 import React from 'react';
 import TaskContainer from './taskContainer';
 import { withRouter } from 'react-router';
-import './taskBoard.css';
+import {projectButtonTheme} from './taskBoardTheme';
 
 import Button from '@material-ui/core/Button';
+import { ThemeProvider } from '@material-ui/styles';
 
 function TasksBoard(props){
         return(
@@ -14,33 +15,19 @@ function TasksBoard(props){
         );
 }
 
-class ProjectOptionsBar extends React.Component{
-    constructor(props){
-        super(props);
-
-        this.handleAddClick = this.handleAddClick.bind(this);
-        this.handleChooseClick = this.handleChooseClick.bind(this);
-    }
-    
-    handleAddClick(){
-        this.props.history.push('/create-project');
-    }
-
-    handleChooseClick(){
-        this.props.history.push('/');
-    }
-
-    render(){
-        return(
-            <div>
-                <h1>Projekt Tábla
-                    <Button variant='contained' color='primary' size='small' className="projectTitleButton" onClick={this.handleAddClick}>Projekt hozzáadása</Button>
-                    <Button variant='contained' color='primary' size='small' className="projectTitleButton" onClick={this.handleChooseClick}>Projekt kiválasztása</Button>
-                </h1>
-            </div>
-        );
-    }
+function ProjectOptionsBar(props){
+    return(
+        <div>
+            <h1>Projekt Feladatok
+                <ThemeProvider theme={projectButtonTheme}>
+                        <Button href='/create-project'>Projekt hozzáadása</Button>
+                        <Button href='/'>Projekt kiválasztása</Button>
+                </ThemeProvider>
+            </h1>
+        </div>
+    );
 }
+
 
 function ProjectTasksTable(props){
         return(
