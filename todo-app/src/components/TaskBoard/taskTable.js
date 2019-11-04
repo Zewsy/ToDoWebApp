@@ -3,9 +3,7 @@ import Task from './task';
 import Modal from './modal';
 import {connect} from 'react-redux';
 import {addTask, editTask} from '../../actions/taskActions';
-
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
+import StatusBar from './statusBar';
 
 function TaskMapper(task, editClickHandler, delClickHandler){
     return (
@@ -102,19 +100,6 @@ class TaskTable extends React.Component{
             </div>
         );
     }
-}
-
-function StatusBar(props){
-    return(
-        <tr>
-            <th>
-                {props.Name}
-                <Fab aria-label="add" size='small' onClick={props.onAddClick}>
-                    <AddIcon size='medium' color='action' />
-                </Fab>
-            </th>
-        </tr>
-    );
 }
 
 function mapDispatchToProps(dispatch){
