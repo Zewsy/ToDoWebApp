@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {deleteTask} from '../actions/taskActions';
+import {deleteTask} from '../../actions/taskActions';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';

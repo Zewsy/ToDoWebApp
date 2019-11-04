@@ -2,9 +2,9 @@ import React from 'react';
 import './taskContainer.css';
 import { withRouter } from 'react-router';
 import TaskTable from './taskTable';
-import { getTasks } from '../reducers/tasksReducer';
+import { getTasks } from '../../reducers/tasksReducer';
 import {connect} from 'react-redux';
-import {fetchTasks} from '../actions/taskActions';
+import {fetchTasks} from '../../actions/taskActions';
 
 class TaskContainer extends React.Component{
     constructor(props){

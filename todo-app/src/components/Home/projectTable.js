@@ -3,8 +3,8 @@ import './projectTable.css'
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux';
 
-import {fetchProjects, deleteProject} from '../actions/projectActions';
-import {getProjects} from '../reducers/projectsReducer';
+import {fetchProjects, deleteProject} from '../../actions/projectActions';
+import {getProjects} from '../../reducers/projectsReducer';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';

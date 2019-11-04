@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import {addProject} from '../actions/projectActions';
+import {addProject} from '../../actions/projectActions';
 import {connect} from 'react-redux';
 import './createProject.css';
 

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import ProjectTable from './projectTable'
-import CreateProject from './createProject'
-import TasksBoard from './tasksBoard'
+import ProjectTable from './components/Home/projectTable'
+import CreateProject from './components/CreateProject/createProject'
+import TasksBoard from './components/TaskBoard/tasksBoard'
 
 const App = () => (
   <div>

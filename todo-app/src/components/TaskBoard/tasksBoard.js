@@ -1,10 +1,7 @@
 import React from 'react';
 import TaskContainer from './taskContainer';
 import { withRouter } from 'react-router';
-import {projectButtonTheme} from './taskBoardTheme';
-
-import Button from '@material-ui/core/Button';
-import { ThemeProvider } from '@material-ui/styles';
+import ProjectOptionsBar from './projectOptionsBar';
 
 function TasksBoard(props){
         return(
@@ -14,20 +11,6 @@ function TasksBoard(props){
             </div>
         );
 }
-
-function ProjectOptionsBar(props){
-    return(
-        <div>
-            <h1>Projekt Feladatok
-                <ThemeProvider theme={projectButtonTheme}>
-                        <Button href='/create-project'>Projekt hozzáadása</Button>
-                        <Button href='/'>Projekt kiválasztása</Button>
-                </ThemeProvider>
-            </h1>
-        </div>
-    );
-}
-
 
 function ProjectTasksTable(props){
         return(

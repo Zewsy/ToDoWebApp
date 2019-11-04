@@ -2,7 +2,7 @@ import React from 'react';
 import Task from './task';
 import Modal from './modal';
 import {connect} from 'react-redux';
-import {addTask, editTask} from '../actions/taskActions';
+import {addTask, editTask} from '../../actions/taskActions';
 
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
