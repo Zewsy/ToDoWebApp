@@ -1,5 +1,5 @@
 import React from 'react';
-import './projects.css';
+import './projectTable.css'
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux';
 
@@ -44,13 +44,13 @@ class Project extends React.Component{
                 <CardActionArea onClick={this.handleClick}>
                     <CardContent>
                         <Typography>
-                            {this.state.name} <br />
+                            <b>{this.state.name}</b> <br />
                             {this.state.description}
                         </Typography>
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Button size='small' onClick={this.handleDelClick}>Törlés</Button>
+                    <Button size='small' variant='contained' color='secondary' onClick={this.handleDelClick}>Törlés</Button>
                 </CardActions>
             </Card>
         );
@@ -100,7 +100,7 @@ class ProjectTable extends React.Component{
                         {projects}
                     </tbody>
                 </table>
-                <button className="btnAddProject" onClick={this.handleAddClick}>Projekt hozzáadása</button>
+                <Button variant='contained' color='primary' className="btnAddProject" onClick={this.handleAddClick}>Projekt hozzáadása</Button>
             </div>
         );
     }

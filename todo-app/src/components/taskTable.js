@@ -4,6 +4,9 @@ import Modal from './modal';
 import {connect} from 'react-redux';
 import {addTask, editTask} from '../actions/taskActions';
 
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+
 function TaskMapper(task, editClickHandler, delClickHandler){
     return (
     <Task
@@ -106,7 +109,9 @@ function StatusBar(props){
         <tr>
             <th>
                 {props.Name}
-                <button id="btnAddTask" onClick={props.onAddClick}>+</button>
+                <Fab aria-label="add" size='small' onClick={props.onAddClick}>
+                    <AddIcon size='medium' color='action' />
+                </Fab>
             </th>
         </tr>
     );

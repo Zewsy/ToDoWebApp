@@ -3,6 +3,8 @@ import TaskContainer from './taskContainer';
 import { withRouter } from 'react-router';
 import './taskBoard.css';
 
+import Button from '@material-ui/core/Button';
+
 function TasksBoard(props){
         return(
             <div>
@@ -31,10 +33,10 @@ class ProjectOptionsBar extends React.Component{
     render(){
         return(
             <div>
-                <h2>Projekt Tábla
-                    <button className="projectTitleFirstButton" onClick={this.handleAddClick}>Projekt hozzáadása</button>
-                    <button onClick={this.handleChooseClick}>Projekt kiválasztása</button>
-                </h2>
+                <h1>Projekt Tábla
+                    <Button variant='contained' color='primary' size='small' className="projectTitleButton" onClick={this.handleAddClick}>Projekt hozzáadása</Button>
+                    <Button variant='contained' color='primary' size='small' className="projectTitleButton" onClick={this.handleChooseClick}>Projekt kiválasztása</Button>
+                </h1>
             </div>
         );
     }
