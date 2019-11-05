@@ -2,6 +2,7 @@ import React from 'react';
 import {styles} from './formDialogStyles';
 import {withStyles} from '@material-ui/core/styles';
 import { withRouter } from 'react-router';
+import {connect} from 'react-redux';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -12,10 +13,14 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 
+import {closeDialog, submitDialog} from '../../actions/taskActions';
+import {getEditingTaskData, getDialogTitle, isDialogActive} from '../../reducers/dialogReducer';
+
 class FormDialog extends React.Component{
     constructor(props){
         super(props);
-        this.state = {status: this.props.editingTaskData.status,
+        this.state = {id: this.props.editingTaskData.id,
+                      status: this.props.editingTaskData.status,
                       title: this.props.editingTaskData.title,
                       description: this.props.editingTaskData.description,
                       priority: this.props.editingTaskData.priority,
@@ -34,16 +39,16 @@ class FormDialog extends React.Component{
     }
 
     handleSubmitClick(){
-        const task = {status: this.state.status, title: this.state.title, description: this.state.description, priority: this.state.priority, deadline: this.state.deadline}
-        this.props.onSubmit(task);
-        this.props.handleClose();
+        const task = {id: this.state.id, project: this.props.projectId, status: this.state.status, title: this.state.title, description: this.state.description, priority: this.state.priority, deadline: this.state.deadline}
+        this.props.submitDialog(task);
+        this.props.closeDialog();
     }
 
     render(){
         const classes = this.props.classes;
         return(
-            <Dialog open={this.props.open} onClose={this.props.handleClose}>
-                <DialogTitle>{this.props.title}</DialogTitle>
+            <Dialog open={this.props.isDialogActive} onClose={this.props.closeDialog}>
+                <DialogTitle>{this.props.dialogTitle}</DialogTitle>
                 <DialogContent>
                         <InputLabel className={classes.dialog}>Cím</InputLabel>
                         <TextField className={classes.dialog} name="title" value={this.state.title} onChange={this.handleChange}/>
@@ -67,7 +72,7 @@ class FormDialog extends React.Component{
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={this.handleSubmitClick}>
-                        {this.props.title}
+                        {this.props.dialogTitle}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -75,4 +80,22 @@ class FormDialog extends React.Component{
     }
 }
 
-export default withRouter(withStyles(styles)(FormDialog));
+function mapDispatchToProps(dispatch){
+    return{
+        closeDialog: () => dispatch(closeDialog()),
+        submitDialog: (task) => dispatch(submitDialog(task))
+    }
+}
+
+function mapStateToProps(state){
+    return{
+        isDialogActive: isDialogActive(state.dialogs),
+        dialogTitle: getDialogTitle(state.dialogs),
+        editingTaskData: getEditingTaskData(state.dialogs)
+    }
+}
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(FormDialog )));

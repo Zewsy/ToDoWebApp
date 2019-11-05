@@ -1,6 +1,9 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {styles} from './statusBarStyles';
+import {connect} from 'react-redux';
+import {openDialog} from '../../actions/taskActions';
+
 
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
@@ -10,7 +13,7 @@ function StatusBar(props){
         <tr>
             <th>
                 {props.Name}
-                <IconButton className={props.classes.btnAdd} aria-label="add" size='small' onClick={props.onAddClick}>
+                <IconButton className={props.classes.btnAdd} aria-label="add" size='small' onClick={() => props.openDialog(props.Name)}>
                     <AddIcon size='medium' color='action' />
                 </IconButton>
             </th>
@@ -18,4 +21,10 @@ function StatusBar(props){
     );
 }
 
-export default withStyles(styles)(StatusBar);
+function mapDispatchToProps(dispatch){
+    return {
+        openDialog: (status) => dispatch(openDialog(status))
+    }
+}
+
+export default withStyles(styles)(connect(null, mapDispatchToProps)(StatusBar));

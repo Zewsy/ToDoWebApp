@@ -1,7 +1,7 @@
 import { DELETE_TASK_SUCCESS, FETCH_TASKS_SUCCESS} from "../actions/taskActions";
 
 const initialState = {
-    tasks: []
+    tasks: [],
 };
 
 export function taskReducer(state = initialState, action){
