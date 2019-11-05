@@ -3,16 +3,3 @@
     margin-right: 10px;
     width: 250px;
 }
-
-.task{
-    background-color: rgb(202, 234, 245);
-}
-
-.btnTaskEdit{
-    float: right;
-    left: 5px;
-}
-
-.btnDel{
-    float: right;
-}

@@ -4,10 +4,12 @@ import {deleteTask} from '../../actions/taskActions';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+import {withStyles} from '@material-ui/core/styles';
+import {styles} from './taskStyles';
 
 class Task extends React.Component{
     constructor(props){
@@ -33,15 +35,16 @@ class Task extends React.Component{
     
     render(){
         const deadline = new Date(this.props.deadline);
+        const classes = this.props.classes;
         return(
             <tr>
                 <td>
                     <Card>
-                        <CardContent className="task">
-                            <IconButton aria-label="edit" color='primary' size='medium' className="btnTaskEdit" onClick={this.handleEditClick}>
+                        <CardContent className={classes.task}>
+                            <IconButton aria-label="edit" color='primary' size='medium' className={classes.btnTaskEdit} onClick={this.handleEditClick}>
                                 <EditIcon />
                             </IconButton>
-                            <IconButton aria-label="delete" color='secondary' size='medium' className="btnDel" onClick={this.handleDelClick}>
+                            <IconButton aria-label="delete" color='secondary' size='medium' className={classes.btnTaskDel} onClick={this.handleDelClick}>
                                 <DeleteIcon />
                             </IconButton>
                             <b>{this.props.title}</b> <br />
@@ -61,4 +64,4 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-export default connect(null, mapDispatchToProps)(Task);
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Task));

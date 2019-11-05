@@ -1,82 +1,21 @@
 import React from 'react';
-import './projectTable.css'
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux';
 
 import {fetchProjects, deleteProject} from '../../actions/projectActions';
 import {getProjects} from '../../reducers/projectsReducer';
+import {styles} from './projectTableStyles';
+import {withStyles} from '@material-ui/core/styles';
 
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import CardActionArea from '@material-ui/core/CardActionArea';
 
-class Project extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            id: this.props.id,
-            name: this.props.name,
-            description: this.props.description
-        }
-
-        this.handleDelClick = this.handleDelClick.bind(this);
-        this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleDelClick(){
-        this.props.deleteProject(this.state.id);
-    }
-
-    handleClick(){
-        this.props.history.push({
-            pathname: '/tasks',
-            state: {selectedProject: this.state.id,
-                    name: this.state.name}
-        });
-    }
-
-    render(){
-        return(
-            <Card>
-                <CardActionArea onClick={this.handleClick}>
-                    <CardContent>
-                        <Typography>
-                            <b>{this.state.name}</b> <br />
-                            {this.state.description}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-                <CardActions>
-                    <Button size='small' variant='contained' color='secondary' onClick={this.handleDelClick}>Törlés</Button>
-                </CardActions>
-            </Card>
-        );
-    }
-}
+import Project from './project';
 
 class ProjectTable extends React.Component{
-    constructor(props){
-        super(props);
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleAddClick = this.handleAddClick.bind(this);
-    }
-
-    handleChange(){
-        this.props.fetchProjects();
-    }
-
+    
     componentDidMount(){
         this.props.fetchProjects();
-    }
-
-    handleAddClick(){
-        this.props.history.push({
-            pathname: '/create-project'
-        });
     }
 
     render(){
@@ -92,15 +31,19 @@ class ProjectTable extends React.Component{
             />
         )});
 
+        const classes = this.props.classes;
+
         return(
             <div>
-                <h1>Projektek</h1>
-                <table className="projectsTable">
-                    <tbody>
-                        {projects}
-                    </tbody>
-                </table>
-                <Button variant='contained' color='primary' className="btnAddProject" onClick={this.handleAddClick}>Projekt hozzáadása</Button>
+                <Typography variant='h1' >Projektek</Typography>
+                <div className={classes.projectsTable}>
+                    <table>
+                        <tbody>
+                            {projects}
+                        </tbody>
+                    </table>
+                </div>
+                <Button href='/create-project' variant='contained' color='primary' className={classes.btnAddProject}>Projekt hozzáadása</Button>
             </div>
         );
     }
@@ -122,4 +65,4 @@ function mapDispatchToProps(dispatch){
 export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(ProjectTable ));
+)(withStyles(styles)(ProjectTable )));
