@@ -1,6 +1,6 @@
 import React from 'react';
 import Task from './task';
-import Modal from './modal';
+import FormDialog from './formDialog';
 import {connect} from 'react-redux';
 import {addTask, editTask} from '../../actions/taskActions';
 import StatusBar from './statusBar';
@@ -25,15 +25,16 @@ class TaskTable extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            isModalActive: false,
-            isEditModalActive: false,
+            isDialogActive: false,
+            isEditing: false,
             editingTaskData: {
                 title: '',
                 description: '',
                 priority: '',
                 deadline: '',
                 status: this.props.status
-            }
+            },
+            dialogTitle: ''
         };
 
         this.handleAdd = this.handleAdd.bind(this);
@@ -45,23 +46,24 @@ class TaskTable extends React.Component{
 
     openModal(){
         this.setState({
-            isModalActive: true,
-            isEditModalActive: false
+            isDialogActive: true,
+            dialogTitle: 'Teendő hozzáadása'
         });
     }
 
     openEditModal(taskData){
         this.setState({
-            isModalActive: false,
-            isEditModalActive: true,
-            editingTaskData: taskData
+            isDialogActive: true,
+            isEditing: true,
+            editingTaskData: taskData,
+            dialogTitle: 'Teendő módosítása'
         });
     }
 
     closeModal(){
         this.setState({
-            isModalActive: false,
-            isEditModalActive: false,
+            isDialogActive: false,
+            isEditing: false,
             editingTaskData: {status: this.props.status}
         });
     }
@@ -79,13 +81,11 @@ class TaskTable extends React.Component{
     
     render(){
         const tasks = this.props.tasks.map(t => TaskMapper(t, this.openEditModal, this.props.onChange));
-        let modal = null;
-        if(this.state.isModalActive){
-            modal = <Modal title="Hozzáadás" editingTaskData={this.state.editingTaskData} onClose={this.closeModal} onSubmit={this.handleAdd}/>
-        }
-        else if(this.state.isEditModalActive){
-            modal = <Modal title="Módosítás" editingTaskData={this.state.editingTaskData} onClose={this.closeModal} onSubmit={this.handleEdit}/>
-        }
+        let onSubmit = null;
+        if(this.state.isEditing)
+            onSubmit = this.handleEdit;
+        else
+            onSubmit = this.handleAdd;
         return(
             <div>
                 <table className="taskTable">
@@ -96,7 +96,14 @@ class TaskTable extends React.Component{
                         {tasks}
                     </tbody>
                 </table>
-                {modal}
+                <FormDialog
+                    open={this.state.isDialogActive}
+                    handleClose={this.closeModal}
+                    title={this.state.dialogTitle}
+                    editingTaskData={this.state.editingTaskData}
+                    onSubmit={onSubmit}
+                    key={this.state.editingTaskData.id + 1}
+                 />
             </div>
         );
     }

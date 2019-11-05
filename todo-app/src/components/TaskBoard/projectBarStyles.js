@@ -22,7 +22,7 @@ export const barTheme = createMuiTheme({
         fontSize: 25,
         fontStyle: 'italic'
     }
-  }
+},
 });
 
 export const styles = {

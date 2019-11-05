@@ -2,7 +2,7 @@ import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {styles} from './statusBarStyles';
 
-import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
 function StatusBar(props){
@@ -10,9 +10,9 @@ function StatusBar(props){
         <tr>
             <th>
                 {props.Name}
-                <Fab className={props.classes.btnAdd} aria-label="add" size='small' onClick={props.onAddClick}>
+                <IconButton className={props.classes.btnAdd} aria-label="add" size='small' onClick={props.onAddClick}>
                     <AddIcon size='medium' color='action' />
-                </Fab>
+                </IconButton>
             </th>
         </tr>
     );

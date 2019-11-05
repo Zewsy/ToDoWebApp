@@ -9,7 +9,7 @@ function ProjectBar(props){
     return(
         <div>
             <ThemeProvider theme={barTheme}>
-                <Typography variant='h1'>Projekt Feladatok
+                <Typography variant='h1'>Projekt Teendők
                     <Button className={props.classes.btnProject} href='/create-project'>Projekt hozzáadása</Button>
                     <Button className={props.classes.btnProject} href='/'>Projekt kiválasztása</Button>
                 </Typography>

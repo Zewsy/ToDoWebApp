@@ -5,7 +5,7 @@ import CreateProject from './components/CreateProject/createProject'
 import TasksBoard from './components/TaskBoard/tasksBoard'
 
 const App = () => (
-  <div>
+    <div>
       <main>
         <Switch>
             <Route exact path='/' component={ProjectTable}/>
@@ -13,7 +13,7 @@ const App = () => (
             <Route path='/tasks' component={TasksBoard}/>
         </Switch>
       </main>
-  </div>
+    </div>
 )
 
 export default App;
