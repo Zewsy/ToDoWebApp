@@ -2,7 +2,8 @@ import React from 'react';
 import Task from './task';
 import FormDialog from './formDialog';
 import {connect} from 'react-redux';
-import {addTask, editTask, openEditDialog, closeDialog} from '../../actions/taskActions';
+import {openEditDialog, closeDialog} from '../../actions/dialogActions';
+import {addTask, editTask} from '../../actions/taskActions';
 import {getEditingTaskData, isEditing} from '../../reducers/dialogReducer';
 import StatusBar from './statusBar';
 import {styles} from './taskTableStyles';
@@ -25,19 +26,19 @@ function TaskMapper(task, editClickHandler, delClickHandler){
 }
 
 function TaskTable(props){
-    const classes = this.props.classes;
-    const tasks = this.props.tasks.map(t => TaskMapper(t, this.props.openEditDialog, this.props.onChange));
+    const classes = props.classes;
+    const tasks = props.tasks.map(t => TaskMapper(t, props.openEditDialog, props.onChange));
     return(
         <div>
             <table className={classes.taskTable}>
                 <thead>
-                    <StatusBar Name={this.props.status} />
+                    <StatusBar Name={props.status} />
                 </thead>
                 <tbody>
                     {tasks}
                 </tbody>
             </table>
-            <FormDialog projectId={this.props.projectId} key={this.props.editId}/>
+            <FormDialog projectId={props.projectId} key={props.editId}/>
         </div>
     );
 }

@@ -13,7 +13,7 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 
-import {closeDialog, submitDialog} from '../../actions/taskActions';
+import {closeDialog, submitDialog} from '../../actions/dialogActions';
 import {getEditingTaskData, getDialogTitle, isDialogActive} from '../../reducers/dialogReducer';
 
 class FormDialog extends React.Component{

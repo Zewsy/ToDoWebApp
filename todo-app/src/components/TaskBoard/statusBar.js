@@ -2,7 +2,7 @@ import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {styles} from './statusBarStyles';
 import {connect} from 'react-redux';
-import {openDialog} from '../../actions/taskActions';
+import {openDialog} from '../../actions/dialogActions';
 
 
 import IconButton from '@material-ui/core/IconButton';

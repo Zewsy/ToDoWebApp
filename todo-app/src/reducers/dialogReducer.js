@@ -1,4 +1,4 @@
-import {OPEN_DIALOG, CLOSE_DIALOG, OPEN_EDIT_DIALOG} from "../actions/taskActions";
+import {OPEN_DIALOG, CLOSE_DIALOG, OPEN_EDIT_DIALOG} from "../actions/dialogActions";
 
 const initialState = {
     editingTaskData: {
