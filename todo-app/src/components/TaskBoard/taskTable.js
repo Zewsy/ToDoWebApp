@@ -41,19 +41,19 @@ class TaskTable extends React.Component{
 
         this.handleAdd = this.handleAdd.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
-        this.openEditModal = this.openEditModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.openModal = this.openModal.bind(this);
+        this.openEditDialog = this.openEditDialog.bind(this);
+        this.closeDialog = this.closeDialog.bind(this);
+        this.openDialog = this.openDialog.bind(this);
     }
 
-    openModal(){
+    openDialog(){
         this.setState({
             isDialogActive: true,
             dialogTitle: 'Teendő hozzáadása'
         });
     }
 
-    openEditModal(taskData){
+    openEditDialog(taskData){
         this.setState({
             isDialogActive: true,
             isEditing: true,
@@ -62,7 +62,7 @@ class TaskTable extends React.Component{
         });
     }
 
-    closeModal(){
+    closeDialog(){
         this.setState({
             isDialogActive: false,
             isEditing: false,
@@ -83,7 +83,7 @@ class TaskTable extends React.Component{
     
     render(){
         const classes = this.props.classes;
-        const tasks = this.props.tasks.map(t => TaskMapper(t, this.openEditModal, this.props.onChange));
+        const tasks = this.props.tasks.map(t => TaskMapper(t, this.openEditDialog, this.props.onChange));
         let onSubmit = null;
         if(this.state.isEditing)
             onSubmit = this.handleEdit;
@@ -93,7 +93,7 @@ class TaskTable extends React.Component{
             <div>
                 <table className={classes.taskTable}>
                     <thead>
-                        <StatusBar Name={this.props.status} onAddClick={this.openModal} />
+                        <StatusBar Name={this.props.status} onAddClick={this.openDialog} />
                     </thead>
                     <tbody>
                         {tasks}
@@ -101,7 +101,7 @@ class TaskTable extends React.Component{
                 </table>
                 <FormDialog
                     open={this.state.isDialogActive}
-                    handleClose={this.closeModal}
+                    handleClose={this.closeDialog}
                     title={this.state.dialogTitle}
                     editingTaskData={this.state.editingTaskData}
                     onSubmit={onSubmit}
