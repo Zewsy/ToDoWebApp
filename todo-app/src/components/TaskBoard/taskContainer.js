@@ -1,5 +1,4 @@
 import React from 'react';
-import './taskContainer.css';
 import { withRouter } from 'react-router';
 import TaskTable from './taskTable';
 import { getTasks } from '../../reducers/tasksReducer';

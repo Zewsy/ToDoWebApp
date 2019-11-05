@@ -4,6 +4,8 @@ import FormDialog from './formDialog';
 import {connect} from 'react-redux';
 import {addTask, editTask} from '../../actions/taskActions';
 import StatusBar from './statusBar';
+import {styles} from './taskTableStyles';
+import {withStyles} from '@material-ui/core/styles';
 
 function TaskMapper(task, editClickHandler, delClickHandler){
     return (
@@ -80,6 +82,7 @@ class TaskTable extends React.Component{
     }
     
     render(){
+        const classes = this.props.classes;
         const tasks = this.props.tasks.map(t => TaskMapper(t, this.openEditModal, this.props.onChange));
         let onSubmit = null;
         if(this.state.isEditing)
@@ -88,7 +91,7 @@ class TaskTable extends React.Component{
             onSubmit = this.handleAdd;
         return(
             <div>
-                <table className="taskTable">
+                <table className={classes.taskTable}>
                     <thead>
                         <StatusBar Name={this.props.status} onAddClick={this.openModal} />
                     </thead>
@@ -116,4 +119,4 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-export default connect(null, mapDispatchToProps)(TaskTable);
+export default connect(null, mapDispatchToProps)(withStyles(styles)(TaskTable));
