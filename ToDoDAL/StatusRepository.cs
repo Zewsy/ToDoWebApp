@@ -8,7 +8,7 @@ using ToDoDAL.EF;
 
 namespace ToDoDAL
 {
-    class StatusRepository : IStatusRepository
+    public class StatusRepository : IStatusRepository
     {
         private readonly TodoDb db;
 
