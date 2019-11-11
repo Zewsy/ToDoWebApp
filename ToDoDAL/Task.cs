@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TodoAppDAL
+namespace ToDoDAL
 {
     public class Task
     {
-        public Task(string title, string description, DateTime deadline, int priority, string status)
+        public Task(string title, string description, DateTime deadline, int priority, string status, int id = 0)
         {
+            ID = id;
             Title = title;
             Description = description;
             Deadline = deadline;
@@ -15,6 +16,7 @@ namespace TodoAppDAL
             StatusName = status;
         }
 
+        public int? ID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime Deadline { get; set; }

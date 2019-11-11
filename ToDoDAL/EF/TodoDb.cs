@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
-namespace TodoAppDAL.EF
+namespace ToDoDAL.EF
 {
     public partial class TodoDb : DbContext
     {

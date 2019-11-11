@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TodoAppDAL.EF;
+using ToDoDAL.EF;
 
-namespace TodoAppDAL
+namespace ToDoDAL
 {
     public class TaskRepository : ITaskRepository
     {
@@ -20,15 +20,7 @@ namespace TodoAppDAL
         public async System.Threading.Tasks.Task DeleteTask(int taskID)
         {
             EF.Task task = null;
-            try
-            {
-                task = await db.Tasks.Where(t => t.Id == taskID).FirstOrDefaultAsync();
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            
+            task = await db.Tasks.Where(t => t.Id == taskID).FirstOrDefaultAsync();  
             
             if (task == null)
                 return;
@@ -39,10 +31,10 @@ namespace TodoAppDAL
 
         public async System.Threading.Tasks.Task<IEnumerable<Task>> GetTasks()
         {
-            return await db.Tasks.Select(dbTask => new Task(dbTask.Title, dbTask.Description, dbTask.Deadline, dbTask.Priority, dbTask.Status.Name)).ToListAsync();
+            return await db.Tasks.Select(dbTask => new Task(dbTask.Title, dbTask.Description, dbTask.Deadline, dbTask.Priority, dbTask.Status.Name, dbTask.Id)).ToListAsync();
         }
 
-        public async System.Threading.Tasks.Task InsertTask(Task task, int projectID)
+        public async System.Threading.Tasks.Task InsertTaskToProject(Task task, int projectID)
         {
             int statusID = await GetStatusIDByName(task.StatusName);
 
@@ -56,13 +48,14 @@ namespace TodoAppDAL
 
             db.Tasks.Add(dbTask);
             await db.SaveChangesAsync();
-            return;
         }
 
-        public async System.Threading.Tasks.Task UpdateTask(Task task, int taskId)
+        public async System.Threading.Tasks.Task UpdateTask(Task task)
         {
+            if (task.ID == 0)
+                return;
             int statusID = await GetStatusIDByName(task.StatusName);
-            var taskDb = await db.Tasks.Where(t => t.Id == taskId).FirstOrDefaultAsync();
+            var taskDb = await db.Tasks.Where(t => t.Id == task.ID).FirstOrDefaultAsync();
             taskDb.Priority = task.Priority;
             taskDb.StatusId = statusID;
             taskDb.Title = task.Title;

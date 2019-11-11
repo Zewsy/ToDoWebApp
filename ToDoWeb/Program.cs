@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using TodoAppDAL;
-using TodoAppDAL.EF;
+using ToDoDAL.EF;
+using ToDoDAL;
 
 namespace TodoAppWeb
 {
@@ -15,7 +15,7 @@ namespace TodoAppWeb
         public static void Main(string[] args)
         {
             var host = CreateWebHostBuilder(args).Build();
-            //_ = RunTestAsync();
+            _ = RunTestAsync();
             host.Run();
         }
 
@@ -23,12 +23,13 @@ namespace TodoAppWeb
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
 
-        /*public static async System.Threading.Tasks.Task RunTestAsync()
+        public static async System.Threading.Tasks.Task RunTestAsync()
         {
             using (TodoDb db = new TodoDb())
             {
                 DbInitializer.Initialize(db);
-                TaskRepository testrepo = new TaskRepository(db);
+                ProjectRepository testrepo = new ProjectRepository(db);
+                await testrepo.DeleteProject(2);
                 //await testrepo.DeleteTask(4);
                 //await testrepo.InsertTask(new TodoAppDAL.Task("InsertedTask", "My task from Test", DateTime.Parse("2019-11-11"), 2, "In Progress"), 1);
                 //await testrepo.UpdateTask(new TodoAppDAL.Task("InsertedTask", "My task from Test But Updated", DateTime.Parse("2019-11-11"), 2, "In Progress"), 8);
@@ -36,8 +37,8 @@ namespace TodoAppWeb
                 /*foreach(TodoAppDAL.Task t in tasks)
                 {
                     System.Diagnostics.Debug.WriteLine(t.Title);
-                }
+                }*/
             }
-        }*/
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TodoAppDAL.EF
+namespace ToDoDAL.EF
 {
     public partial class Status
     {
