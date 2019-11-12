@@ -36,7 +36,7 @@ namespace TodoAppWeb
         {
             foreach (ToDoDAL.Task t in tasks)
             {
-                System.Diagnostics.Trace.WriteLine(t.Title + " TestRes");
+                System.Diagnostics.Trace.WriteLine(t.Title + "\t TestRes\t" + t.Priority);
             }
             foreach (ToDoDAL.Project p in projects)
             {
@@ -57,17 +57,17 @@ namespace TodoAppWeb
                 StatusRepository statusTestRepo = new ToDoDAL.StatusRepository(db);
 
                 await taskTestRepo.InsertTaskToProject(new ToDoDAL.Task("InsertedTask", "My task from Test", DateTime.Parse("2019-11-11"), 2, "In Progress"), 1);
-                await taskTestRepo.DeleteTask(4);
-                await taskTestRepo.UpdateTask(new ToDoDAL.Task("InsertedTask", "My task from Test But Updated", DateTime.Parse("2019-11-11"), 2, "In Progress", 8));
+                //await taskTestRepo.DeleteTask(4);
+                //await taskTestRepo.UpdateTask(new ToDoDAL.Task("InsertedTask", "My task from Test But Updated", DateTime.Parse("2019-11-11"), 2, "In Progress", 8));
 
-                await projectTestRepo.DeleteProject(2);
-                await projectTestRepo.InsertProject(new ToDoDAL.Project("Third project", "Inserted"));
+                //await projectTestRepo.DeleteProject(2);
+                //await projectTestRepo.InsertProject(new ToDoDAL.Project("Third project", "Inserted"));
                 var projects = await projectTestRepo.GetProjects();
 
                 var tasks = await taskTestRepo.GetTasks();
 
-                await statusTestRepo.InsertStatus(new ToDoDAL.Status("Very important"));
-                await statusTestRepo.DeleteStatus(4);
+                //await statusTestRepo.InsertStatus(new ToDoDAL.Status("Very important"));
+                //await statusTestRepo.DeleteStatus(4);
                 var statuses = await statusTestRepo.GetStatuses();
 
                 PrintTestResults(tasks, projects, statuses);   
