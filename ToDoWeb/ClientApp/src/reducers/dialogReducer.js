@@ -1,4 +1,4 @@
-import {OPEN_DIALOG, CLOSE_DIALOG, OPEN_EDIT_DIALOG} from "../actions/dialogActions";
+import {OPEN_DIALOG, CLOSE_DIALOG, OPEN_EDIT_DIALOG, OPEN_NEWSTATUS_DIALOG} from "../actions/dialogActions";
 
 const initialState = {
     editingTaskData: {
@@ -9,6 +9,7 @@ const initialState = {
         deadline: '',
         status: ''
     },
+    isNewStatusDialogActive: false,
     isDialogActive: false,
     isEditing: false,
     dialogTitle: ''
@@ -44,7 +45,14 @@ export function dialogReducer(state = initialState, action){
             return {
                 ...state,
                 isDialogActive: false,
-                isEditing: false
+                isEditing: false,
+                isNewStatusDialogActive: false
+            }
+        }
+        case OPEN_NEWSTATUS_DIALOG: {
+            return {
+                ...state,
+                isNewStatusDialogActive: true
             }
         }
         default: {
@@ -57,3 +65,4 @@ export const isDialogActive = state => state.isDialogActive;
 export const isEditing = state => state.isEditing;
 export const getDialogTitle = state => state.dialogTitle;
 export const getEditingTaskData = state => state.editingTaskData;
+export const isNewStatusDialogActive = state => state.isNewStatusDialogActive;

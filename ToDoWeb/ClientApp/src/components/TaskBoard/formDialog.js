@@ -15,6 +15,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 import {closeDialog, submitDialog} from '../../actions/dialogActions';
 import {getEditingTaskData, getDialogTitle, isDialogActive} from '../../reducers/dialogReducer';
+import { getStatuses } from '../../reducers/tasksReducer';
 
 class FormDialog extends React.Component{
     constructor(props){
@@ -46,6 +47,7 @@ class FormDialog extends React.Component{
 
     render(){
         const classes = this.props.classes;
+        const statusOptions = this.props.statuses.map(s => {return (<option value={s.name}>{s.name}</option>)});
         return(
             <Dialog open={this.props.isDialogActive} onClose={this.props.closeDialog}>
                 <DialogTitle>{this.props.dialogTitle}</DialogTitle>
@@ -61,10 +63,7 @@ class FormDialog extends React.Component{
                         
                         <InputLabel className={classes.dialog}>Állapot</InputLabel>
                         <Select className={classes.dialog} native name="status" value={this.state.status} onChange={this.handleChange}>
-                            <option value="Függőben">Függőben</option>
-                            <option value="Folyamatban">Folyamatban</option>
-                            <option value="Kész">Kész</option>
-                            <option value="Elhalasztva">Elhalasztva</option>
+                            {statusOptions}
                         </Select>
 
                         <InputLabel className={classes.dialog}>Prioritás</InputLabel>
@@ -91,7 +90,8 @@ function mapStateToProps(state){
     return{
         isDialogActive: isDialogActive(state.dialogs),
         dialogTitle: getDialogTitle(state.dialogs),
-        editingTaskData: getEditingTaskData(state.dialogs)
+        editingTaskData: getEditingTaskData(state.dialogs),
+        statuses: getStatuses(state.tasks)
     }
 }
 

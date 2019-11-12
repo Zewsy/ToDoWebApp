@@ -4,6 +4,7 @@ export const OPEN_DIALOG = 'OPEN_DIALOG';
 export const OPEN_EDIT_DIALOG = 'OPEN_EDIT_DIALOG';
 export const CLOSE_DIALOG = 'CLOSE_DIALOG';
 export const SUBMIT_DIALOG = 'SUBMIT_DIALOG';
+export const OPEN_NEWSTATUS_DIALOG = 'OPEN_NEWSTATUS_DIALOG';
 
 export function openEditDialog(task){
     return {
@@ -16,6 +17,12 @@ export function openDialog(status){
     return {
         type: OPEN_DIALOG,
         status: status
+    }
+}
+
+export function openNewStatusDialog(){
+    return {
+        type: OPEN_NEWSTATUS_DIALOG
     }
 }
 

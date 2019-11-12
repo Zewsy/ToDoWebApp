@@ -1,9 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import TaskTable from './taskTable';
-import { getTasks } from '../../reducers/tasksReducer';
+import { getTasks, getStatuses } from '../../reducers/tasksReducer';
 import {connect} from 'react-redux';
-import {fetchTasks} from '../../actions/taskActions';
+import {fetchTasks, fetchStatuses} from '../../actions/taskActions';
+import { Button, Grid } from '@material-ui/core';
+import { openNewStatusDialog } from '../../actions/dialogActions';
+import NewStatusDialog from './newStatusDialog';
 
 class TaskContainer extends React.Component{
     constructor(props){
@@ -13,14 +16,20 @@ class TaskContainer extends React.Component{
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.fetchData = this.fetchData.bind(this);
+    }
+
+    fetchData(){
+        this.props.fetchTasks();
+        this.props.fetchStatuses();
     }
 
     handleChange(){
-       this.props.fetchTasks();
+       this.fetchData();
     }
 
     componentDidMount(){
-        this.props.fetchTasks();
+        this.fetchData();
     }
 
     render(){
@@ -33,16 +42,24 @@ class TaskContainer extends React.Component{
             else
                 return 0;
         }
-        const pendingTasks = tasks.filter(t => {return t.status.match("Függőben") && t.project === this.state.projectId}).sort((t1, t2) => taskComparator(t1, t2));
-        const inProgressTasks = tasks.filter(t => {return t.status.match("Folyamatban") && t.project === this.state.projectId}).sort((t1, t2) => taskComparator(t1, t2));
-        const doneTasks = tasks.filter(t => {return t.status.match("Kész") && t.project === this.state.projectId}).sort((t1, t2) => taskComparator(t1, t2));
-        const suspendedTasks = tasks.filter(t => {return t.status.match("Elhalasztva") && t.project === this.state.projectId}).sort((t1, t2) => taskComparator(t1, t2));
+        const statuses = this.props.statuses;
+        const taskTables = [];
+        let i = 1;
+        statuses.forEach(status => {
+            const statusTasks = tasks.filter(t => {return t.status === status.id && t.project === this.state.projectId}).sort((t1, t2) => taskComparator(t1, t2));
+            taskTables.push(<Grid item><TaskTable key={i} projectId = {this.state.projectId} status={status.name} tasks={statusTasks} onChange={this.handleChange}/></Grid>)
+            i++;
+        });
+
         return(
             <div>
-                <TaskTable projectId={this.state.projectId} status="Függőben" tasks={pendingTasks} onChange={this.handleChange}/>
-                <TaskTable projectId={this.state.projectId} status="Folyamatban" tasks={inProgressTasks} onChange={this.handleChange}/>
-                <TaskTable projectId={this.state.projectId} status="Kész" tasks={doneTasks} onChange={this.handleChange}/>
-                <TaskTable projectId={this.state.projectId} status="Elhalasztva" tasks={suspendedTasks} onChange={this.handleChange}/>
+                <Grid container maxWidth='1000px' overflow='auto'>
+                {taskTables}
+                <Grid item xs>
+                    <Button variant='contained' onClick={this.props.openDialog}>Új státusz felvétele</Button>
+                </Grid>
+                </Grid>
+                <NewStatusDialog />
             </div>
         );
     }
@@ -50,13 +67,16 @@ class TaskContainer extends React.Component{
 
 function mapStateToProps(state){
     return{
-        tasks: getTasks(state.tasks)
+        tasks: getTasks(state.tasks),
+        statuses: getStatuses(state.tasks)
     }
 }
 
 function mapDispatchToProps(dispatch){
     return{
-        fetchTasks: () => dispatch(fetchTasks())
+        fetchTasks: () => dispatch(fetchTasks()),
+        fetchStatuses: () => dispatch(fetchStatuses()),
+        openDialog: () => dispatch(openNewStatusDialog())
     }
 }
 
