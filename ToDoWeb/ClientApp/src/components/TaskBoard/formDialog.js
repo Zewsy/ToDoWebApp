@@ -15,7 +15,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 import {closeDialog, submitDialog} from '../../actions/dialogActions';
 import {getEditingTaskData, getDialogTitle, isDialogActive} from '../../reducers/dialogReducer';
-import { getStatuses } from '../../reducers/tasksReducer';
+import { getStatuses } from '../../reducers/statusReducer';
 
 class FormDialog extends React.Component{
     constructor(props){
@@ -40,14 +40,14 @@ class FormDialog extends React.Component{
     }
 
     handleSubmitClick(){
-        const task = {id: this.state.id, project: this.props.projectId, status: this.state.status, title: this.state.title, description: this.state.description, priority: this.state.priority, deadline: this.state.deadline}
+        const task = {id: this.state.id, project: this.props.projectId, status: parseInt(this.state.status), title: this.state.title, description: this.state.description, priority: this.state.priority, deadline: this.state.deadline}
         this.props.submitDialog(task);
         this.props.closeDialog();
     }
 
     render(){
         const classes = this.props.classes;
-        const statusOptions = this.props.statuses.map(s => {return (<option value={s.name}>{s.name}</option>)});
+        const statusOptions = this.props.statuses.map(s => {return (<option value={s.id} key={s.id}>{s.name}</option>)});
         return(
             <Dialog open={this.props.isDialogActive} onClose={this.props.closeDialog}>
                 <DialogTitle>{this.props.dialogTitle}</DialogTitle>
@@ -91,7 +91,7 @@ function mapStateToProps(state){
         isDialogActive: isDialogActive(state.dialogs),
         dialogTitle: getDialogTitle(state.dialogs),
         editingTaskData: getEditingTaskData(state.dialogs),
-        statuses: getStatuses(state.tasks)
+        statuses: getStatuses(state.statuses)
     }
 }
 

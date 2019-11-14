@@ -3,7 +3,7 @@ import {withStyles} from '@material-ui/core/styles';
 import {styles} from './statusBarStyles';
 import {connect} from 'react-redux';
 import {openDialog} from '../../actions/dialogActions';
-import {deleteStatus} from '../../actions/taskActions';
+import {deleteStatus} from '../../actions/statusActions';
 
 
 import IconButton from '@material-ui/core/IconButton';
@@ -14,11 +14,11 @@ function StatusBar(props){
     return(
         <tr>
             <th>
-                {props.Name}
-                <IconButton className={props.classes.btnAdd} aria-label="add" size='small' onClick={() => props.openDialog(props.Name)}>
+                {props.status.name}
+                <IconButton className={props.classes.btnAdd} aria-label="add" size='small' onClick={() => props.openDialog(props.status.id)}>
                     <AddIcon size='medium' color='action' />
                 </IconButton>
-                <IconButton aria-label="remove" size='small' onClick={() => props.deleteStatus(props.Name)}>
+                <IconButton aria-label="remove" size='small' onClick={() => props.deleteStatus(props.status.name)}>
                     <RemoveIcon size='medium' color='action' />
                 </IconButton>
             </th>

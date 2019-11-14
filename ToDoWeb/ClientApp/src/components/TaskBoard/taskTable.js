@@ -1,10 +1,8 @@
 import React from 'react';
 import Task from './task';
-import FormDialog from './formDialog';
 import {connect} from 'react-redux';
 import {openEditDialog, closeDialog} from '../../actions/dialogActions';
 import {addTask, editTask} from '../../actions/taskActions';
-import {getEditingTaskData, isEditing} from '../../reducers/dialogReducer';
 import StatusBar from './statusBar';
 import {styles} from './taskTableStyles';
 import {withStyles} from '@material-ui/core/styles';
@@ -32,22 +30,14 @@ function TaskTable(props){
         <div>
             <table className={classes.taskTable}>
                 <thead>
-                    <StatusBar Name={props.status} />
+                    <StatusBar status={props.status}/>
                 </thead>
                 <tbody>
                     {tasks}
                 </tbody>
             </table>
-            <FormDialog projectId={props.projectId} key={props.editId}/>
         </div>
     );
-}
-
-function mapStateToProps(state){
-    return {
-        editId: getEditingTaskData(state.dialogs).id,
-        isEditing: isEditing(state.dialogs)
-    }
 }
 
 function mapDispatchToProps(dispatch){
@@ -59,4 +49,4 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(TaskTable));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(TaskTable));

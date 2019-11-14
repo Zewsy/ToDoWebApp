@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import {connect} from 'react-redux';
 import { isNewStatusDialogActive } from '../../reducers/dialogReducer';
 import { closeDialog } from '../../actions/dialogActions';
-import { addStatus } from '../../actions/taskActions';
+import { addStatus } from '../../actions/statusActions';
 
 class NewStatusDialog extends React.Component{
     constructor(props){

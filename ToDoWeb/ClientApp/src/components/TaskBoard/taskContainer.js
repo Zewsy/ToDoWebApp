@@ -1,12 +1,16 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import TaskTable from './taskTable';
-import { getTasks, getStatuses } from '../../reducers/tasksReducer';
+import { getTasks} from '../../reducers/tasksReducer';
+import {getStatuses} from '../../reducers/statusReducer';
 import {connect} from 'react-redux';
-import {fetchTasks, fetchStatuses} from '../../actions/taskActions';
+import {fetchTasks} from '../../actions/taskActions';
+import {fetchStatuses} from '../../actions/statusActions';
 import { Button, Grid } from '@material-ui/core';
 import { openNewStatusDialog } from '../../actions/dialogActions';
+import { getEditingTaskData } from '../../reducers/dialogReducer';
 import NewStatusDialog from './newStatusDialog';
+import FormDialog from './formDialog';
 
 class TaskContainer extends React.Component{
     constructor(props){
@@ -44,22 +48,23 @@ class TaskContainer extends React.Component{
         }
         const statuses = this.props.statuses;
         const taskTables = [];
-        let i = 1;
         statuses.forEach(status => {
             const statusTasks = tasks.filter(t => {return t.status === status.id && t.project === this.state.projectId}).sort((t1, t2) => taskComparator(t1, t2));
-            taskTables.push(<Grid item><TaskTable key={i} projectId = {this.state.projectId} status={status.name} tasks={statusTasks} onChange={this.handleChange}/></Grid>)
-            i++;
+            taskTables.push(<Grid key={status.id} item>
+                                <TaskTable projectId = {this.state.projectId} status={status} tasks={statusTasks} onChange={this.handleChange}/>
+                            </Grid>)
         });
 
         return(
             <div>
-                <Grid container maxWidth='1000px' overflow='auto'>
+                <Grid container overflow='auto'>
                 {taskTables}
                 <Grid item xs>
                     <Button variant='contained' onClick={this.props.openDialog}>Új státusz felvétele</Button>
                 </Grid>
                 </Grid>
                 <NewStatusDialog />
+                <FormDialog projectId={this.state.projectId} key={this.props.editingTaskData.id}/>
             </div>
         );
     }
@@ -68,7 +73,8 @@ class TaskContainer extends React.Component{
 function mapStateToProps(state){
     return{
         tasks: getTasks(state.tasks),
-        statuses: getStatuses(state.tasks)
+        statuses: getStatuses(state.statuses),
+        editingTaskData: getEditingTaskData(state.dialogs)
     }
 }
 
