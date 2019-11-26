@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import {connect} from 'react-redux';
-import { isNewStatusDialogActive } from '../../reducers/dialogReducer';
+import { isNewStatusDialogActive, getStatusId } from '../../reducers/dialogReducer';
 import { closeDialog } from '../../actions/dialogActions';
 import { addStatus } from '../../actions/statusActions';
 
@@ -23,7 +23,8 @@ class NewStatusDialog extends React.Component{
     }
 
     handleSubmitClick(){
-        this.props.addStatus(this.state.name);
+        const status = {id: this.props.statusId, name: this.state.name};
+        this.props.addStatus(status);
         this.props.closeDialog();
     }
 
@@ -52,7 +53,8 @@ class NewStatusDialog extends React.Component{
 
 function mapStateToProps(state){
     return{
-        isDialogActive: isNewStatusDialogActive(state.dialogs)
+        isDialogActive: isNewStatusDialogActive(state.dialogs),
+        statusId: getStatusId(state.dialogs)
     }
 }
 

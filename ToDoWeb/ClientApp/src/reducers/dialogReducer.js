@@ -10,6 +10,7 @@ const initialState = {
         deadline: '',
         status: ''
     },
+    newStatusId: '',
     isNewStatusDialogActive: false,
     isDialogActive: false,
     isEditing: false,
@@ -55,6 +56,7 @@ export function dialogReducer(state = initialState, action){
         case OPEN_NEWSTATUS_DIALOG: {
             return {
                 ...state,
+                newStatusId: uuid.v4(),
                 isNewStatusDialogActive: true
             }
         }
@@ -69,3 +71,4 @@ export const isEditing = state => state.isEditing;
 export const getDialogTitle = state => state.dialogTitle;
 export const getEditingTaskData = state => state.editingTaskData;
 export const isNewStatusDialogActive = state => state.isNewStatusDialogActive;
+export const getStatusId = state => state.newStatusId;

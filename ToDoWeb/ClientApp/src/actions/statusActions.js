@@ -2,6 +2,7 @@ import {deleteTask} from './taskActions';
 
 export const FETCH_STATUSES_SUCCESS = 'FETCH_STATUSES_SUCCESS';
 export const DELETE_STATUS_SUCCESS = 'DELETE_STATUS_SUCCESS';
+export const ADD_STATUS_SUCCESS = 'ADD_STATUS_SUCCESS';
 
 const statusUrl = "http://localhost:3001/statuses/"
 
@@ -15,6 +16,13 @@ function deleteStatusSuccess(statusId){
 function fetchStatusesSuccess(data){
     return{
         type: FETCH_STATUSES_SUCCESS,
+        data: data
+    }
+}
+
+function addStatusSuccess(data){
+    return{
+        type: ADD_STATUS_SUCCESS,
         data: data
     }
 }
@@ -45,7 +53,7 @@ export function fetchStatuses(){
     }
 }
 
-export function addStatus(statusName){
+export function addStatus(status){
     return function(dispatch){
         fetch(statusUrl, {
             method: 'POST',
@@ -53,8 +61,9 @@ export function addStatus(statusName){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: statusName
+                id: status.id,
+                name: status.name
             })
-        }).then(() => dispatch(fetchStatuses()))
+        }).then(() => dispatch(addStatusSuccess(status)))
     }
 } 

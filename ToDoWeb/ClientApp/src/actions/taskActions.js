@@ -1,5 +1,7 @@
 export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS';
+export const ADD_TASK_SUCCESS = 'ADD_TASK_SUCCESS';
+export const TASK_EDITED = 'TASK_EDITED';
 
 const taskUrl = "http://localhost:3001/todos/";
 
@@ -14,6 +16,20 @@ function fetchTasksSuccess(data){
     return{
         type: FETCH_TASKS_SUCCESS,
         data: data
+    }
+}
+
+function addTaskSuccess(task){
+    return {
+        type: ADD_TASK_SUCCESS,
+        data: task
+    }
+}
+
+function taskEdited(task){
+    return {
+        type: TASK_EDITED,
+        data: task
     }
 }
 
@@ -44,13 +60,14 @@ export function addTask(task){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                id: task.id,
                 title: task.title,
                 description: task.description,
                 deadline: task.deadline,
                 status: task.status,
                 priority: parseInt(task.priority),
                 project: task.project
-            })}).then(() => dispatch(fetchTasks()))
+            })}).then(() => dispatch(addTaskSuccess(task)))
     }
 }
 
@@ -70,6 +87,6 @@ export function editTask(task){
                 priority: parseInt(task.priority),
                 project: task.project
             })
-        }).then(() => dispatch(fetchTasks()))
+        }).then(() => dispatch(taskEdited(task)))
     }
 }
