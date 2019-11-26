@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ToDoDAL.EF
 {
-    public partial class Task
+    public partial class dbTask
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -13,7 +13,7 @@ namespace ToDoDAL.EF
         public int ProjectId { get; set; }
         public int StatusId { get; set; }
 
-        public virtual Project Project { get; set; }
-        public virtual Status Status { get; set; }
+        public virtual dbProject Project { get; set; }
+        public virtual dbStatus Status { get; set; }
     }
 }

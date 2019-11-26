@@ -16,9 +16,9 @@ namespace ToDoDAL.EF
         {
         }
 
-        public virtual DbSet<Project> Projects { get; set; }
-        public virtual DbSet<Status> Statuses { get; set; }
-        public virtual DbSet<Task> Tasks { get; set; }
+        public virtual DbSet<dbProject> Projects { get; set; }
+        public virtual DbSet<dbStatus> Statuses { get; set; }
+        public virtual DbSet<dbTask> Tasks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,17 +31,17 @@ namespace ToDoDAL.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Project>(entity =>
+            modelBuilder.Entity<dbProject>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
             });
 
-            modelBuilder.Entity<Status>(entity =>
+            modelBuilder.Entity<dbStatus>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
             });
 
-            modelBuilder.Entity<Task>(entity =>
+            modelBuilder.Entity<dbTask>(entity =>
             {
                 entity.HasIndex(e => e.ProjectId);
 

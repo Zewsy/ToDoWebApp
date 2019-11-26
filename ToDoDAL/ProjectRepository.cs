@@ -17,7 +17,7 @@ namespace ToDoDAL
 
         public async System.Threading.Tasks.Task DeleteProject(int projectID)
         {
-            EF.Project project = null;
+            dbProject project = null;
             project = await db.Projects.Where(project => project.Id == projectID).FirstOrDefaultAsync();
 
             if (project == null)
@@ -28,14 +28,14 @@ namespace ToDoDAL
             
         }
 
-        public async System.Threading.Tasks.Task<IEnumerable<Project>> GetProjects()
+        public IEnumerable<Project> GetProjects()
         {
-            return await db.Projects.Select(dbProject => new Project(dbProject.Title, dbProject.Description, dbProject.Id)).ToListAsync();
+            return db.Projects.Select(dbProject => new Project(dbProject.Title, dbProject.Description, dbProject.Id)).ToList();
         }
 
         public async System.Threading.Tasks.Task InsertProject(Project project)
         {
-            EF.Project dbProject = new EF.Project();
+            dbProject dbProject = new dbProject();
             dbProject.Title = project.Title;
             dbProject.Description = project.Description;
 

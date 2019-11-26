@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace ToDoDAL.EF
 {
-    public partial class Project
+    public partial class dbProject
     {
-        public Project()
+        public dbProject()
         {
-            Tasks = new HashSet<Task>();
+            Tasks = new HashSet<dbTask>();
         }
 
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
 
-        public virtual ICollection<Task> Tasks { get; set; }
+        public virtual ICollection<dbTask> Tasks { get; set; }
     }
 }

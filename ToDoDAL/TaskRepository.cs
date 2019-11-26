@@ -19,7 +19,7 @@ namespace ToDoDAL
 
         public async System.Threading.Tasks.Task DeleteTask(int taskID)
         {
-            EF.Task task = null;
+            EF.dbTask task = null;
             task = await db.Tasks.Where(t => t.Id == taskID).FirstOrDefaultAsync();  
             
             if (task == null)
@@ -29,9 +29,9 @@ namespace ToDoDAL
             await db.SaveChangesAsync();
         }
 
-        public async System.Threading.Tasks.Task<IEnumerable<Task>> GetTasks()
+        public IEnumerable<Task> GetTasks()
         {
-            return await db.Tasks.Select(dbTask => new Task(dbTask.Title, dbTask.Description, dbTask.Deadline, dbTask.Priority, dbTask.Status.Name, dbTask.Id)).ToListAsync();
+            return db.Tasks.Select(dbTask => new Task(dbTask.Title, dbTask.Description, dbTask.Deadline, dbTask.Priority, dbTask.Status.Name, dbTask.Id)).ToList();
         }
 
         public async System.Threading.Tasks.Task InsertTaskToProject(Task task, int projectID)
@@ -39,7 +39,7 @@ namespace ToDoDAL
             int statusID = await GetStatusIDByName(task.StatusName);
             await HandleAddingNewPriority(task.Priority, statusID, projectID);
 
-            EF.Task dbTask = new EF.Task();
+            EF.dbTask dbTask = new EF.dbTask();
             dbTask.Priority = task.Priority;
             dbTask.StatusId = statusID;
             dbTask.Title = task.Title;
@@ -88,7 +88,7 @@ namespace ToDoDAL
                             .OrderBy(t => t.Priority)
                             .Where(t => t.ProjectId == projectId && t.StatusId == statusId && t.Priority >= priority)
                             .ToListAsync();
-                foreach (EF.Task t in tasks)
+                foreach (EF.dbTask t in tasks)
                     t.Priority++;
                 await db.SaveChangesAsync();
             }

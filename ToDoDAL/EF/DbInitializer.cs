@@ -16,42 +16,42 @@ namespace ToDoDAL.EF
                 return;
             }
 
-            var statuses = new Status[]
+            var statuses = new dbStatus[]
             {
-                new Status{Name="Done"},
-                new Status{Name="In Progress"},
-                new Status{Name="Pending"},
-                new Status{Name="Suspended"}
+                new dbStatus{Name="Done"},
+                new dbStatus{Name="In Progress"},
+                new dbStatus{Name="Pending"},
+                new dbStatus{Name="Suspended"}
             };
 
-            foreach (Status s in statuses)
+            foreach (dbStatus s in statuses)
                 context.Statuses.Add(s);
 
             context.SaveChanges();
 
-            var projects = new Project[]
+            var projects = new dbProject[]
             {
-                new Project{Title="Main Project", Description="Making the backend"},
-                new Project{Title="Project 2", Description="asd1234 afafoepfio poakfe apfkao ffjaiofh fe iuafeaeufnnafnief if heu"}
+                new dbProject{Title="Main Project", Description="Making the backend"},
+                new dbProject{Title="Project 2", Description="asd1234 afafoepfio poakfe apfkao ffjaiofh fe iuafeaeufnnafnief if heu"}
             };
 
-            foreach (Project p in projects)
+            foreach (dbProject p in projects)
                 context.Projects.Add(p);
 
             context.SaveChanges();
 
-            var tasks = new Task[]
+            var tasks = new dbTask[]
             {
-                new Task{Title="Planning",Description="Fixed plan",Deadline=DateTime.Parse("2019-10-25"),Priority=1,StatusId=1, ProjectId=1},
-                new Task{Title="Preparation", Description="Tasks specified", Deadline=DateTime.Parse("2019-10-25"), Priority=2, StatusId=1, ProjectId=1},
-                new Task{Title="Task A", Description="As soon as possible", Deadline=DateTime.Parse("2019-10-25"), Priority=1, StatusId=2, ProjectId=1},
-                new Task{Title="Task B", Description="in parallel with Task A", Deadline=DateTime.Parse("2019-10-25"), Priority=2, StatusId=2, ProjectId=1},
-                new Task{Title="Task C", Description="Not urgent", Deadline=DateTime.Parse("2019-10-25"), Priority=3, StatusId=3, ProjectId=1},
-                new Task{Title="Task D", Description="Important to do", Deadline=DateTime.Parse("2019-10-25"), Priority=1, StatusId=3, ProjectId=2},
-                new Task{Title="Task E", Description="", Deadline=DateTime.Parse("2019-10-25"), Priority=3, StatusId=2, ProjectId=2}
+                new dbTask{Title="Planning",Description="Fixed plan",Deadline=DateTime.Parse("2019-10-25"),Priority=1,StatusId=1, ProjectId=1},
+                new dbTask{Title="Preparation", Description="Tasks specified", Deadline=DateTime.Parse("2019-10-25"), Priority=2, StatusId=1, ProjectId=1},
+                new dbTask{Title="Task A", Description="As soon as possible", Deadline=DateTime.Parse("2019-10-25"), Priority=1, StatusId=2, ProjectId=1},
+                new dbTask{Title="Task B", Description="in parallel with Task A", Deadline=DateTime.Parse("2019-10-25"), Priority=2, StatusId=2, ProjectId=1},
+                new dbTask{Title="Task C", Description="Not urgent", Deadline=DateTime.Parse("2019-10-25"), Priority=3, StatusId=3, ProjectId=1},
+                new dbTask{Title="Task D", Description="Important to do", Deadline=DateTime.Parse("2019-10-25"), Priority=1, StatusId=3, ProjectId=2},
+                new dbTask{Title="Task E", Description="", Deadline=DateTime.Parse("2019-10-25"), Priority=3, StatusId=2, ProjectId=2}
             };
 
-            foreach (Task t in tasks)
+            foreach (dbTask t in tasks)
                 context.Tasks.Add(t);
 
             context.SaveChanges();

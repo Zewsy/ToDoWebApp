@@ -18,7 +18,7 @@ namespace ToDoDAL
         }
         public async System.Threading.Tasks.Task DeleteStatus(int statusID)
         {
-            EF.Status status = null;
+            EF.dbStatus status = null;
             status = await db.Statuses.Where(s => s.Id == statusID).FirstOrDefaultAsync();
 
             if (status == null)
@@ -28,14 +28,14 @@ namespace ToDoDAL
             await db.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Status>> GetStatuses()
+        public IEnumerable<Status> GetStatuses()
         {
-            return await db.Statuses.Select(s => new Status(s.Name, s.Id)).ToListAsync();
+            return db.Statuses.Select(s => new Status(s.Name, s.Id)).ToList();
         }
 
         public async System.Threading.Tasks.Task InsertStatus(Status status)
         {
-            EF.Status dbStatus = new EF.Status();
+            EF.dbStatus dbStatus = new EF.dbStatus();
             dbStatus.Name = status.Name;
 
             db.Statuses.Add(dbStatus);
