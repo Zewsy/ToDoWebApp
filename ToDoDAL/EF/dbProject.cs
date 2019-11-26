@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ToDoDAL.EF
 {
-    public partial class dbProject
+    internal partial class dbProject
     {
         public dbProject()
         {

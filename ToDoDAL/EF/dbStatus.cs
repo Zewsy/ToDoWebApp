@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ToDoDAL.EF
 {
-    public partial class dbStatus
+    internal partial class dbStatus
     {
         public dbStatus()
         {

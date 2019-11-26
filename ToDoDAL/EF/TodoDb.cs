@@ -16,9 +16,9 @@ namespace ToDoDAL.EF
         {
         }
 
-        public virtual DbSet<dbProject> Projects { get; set; }
-        public virtual DbSet<dbStatus> Statuses { get; set; }
-        public virtual DbSet<dbTask> Tasks { get; set; }
+        internal virtual DbSet<dbProject> Projects { get; set; }
+        internal virtual DbSet<dbStatus> Statuses { get; set; }
+        internal virtual DbSet<dbTask> Tasks { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
