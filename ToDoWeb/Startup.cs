@@ -21,15 +21,19 @@ namespace TodoAppWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddDbContext<ToDoDAL.EF.TodoDb>(options => options.UseSqlServer(Configuration.GetConnectionString("TodoDb")));
 
+            services.AddTransient<ITaskRepository, TaskRepository>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
+            services.AddTransient<IStatusRepository, StatusRepository>();
+            
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/build";
-            });
+            //services.AddSpaStaticFiles(configuration =>
+            //{
+                //configuration.RootPath = "ClientApp/build";
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +52,7 @@ namespace TodoAppWeb
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            //app.UseSpaStaticFiles();
 
             app.UseRouting();
 
@@ -59,7 +63,7 @@ namespace TodoAppWeb
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
+            /*app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
 
@@ -67,7 +71,7 @@ namespace TodoAppWeb
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
-            });
+            });*/
         }
     }
 }

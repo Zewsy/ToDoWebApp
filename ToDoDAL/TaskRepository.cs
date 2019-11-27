@@ -29,33 +29,56 @@ namespace ToDoDAL
             await db.SaveChangesAsync();
         }
 
-        public IEnumerable<Task> GetTasks()
+        public IEnumerable<Task> GetTasksFromProject(int projectId)
         {
-            return db.Tasks.Select(dbTask => new Task(dbTask.Title, dbTask.Description, dbTask.Deadline, dbTask.Priority, dbTask.Status.Name, dbTask.Id)).ToList();
+            return db.Tasks
+             .Where(dbTask => dbTask.ProjectId == projectId)
+             .Select(dbTask => new Task(
+                dbTask.Title,
+                dbTask.Description,
+                dbTask.Deadline,
+                dbTask.Priority,
+                dbTask.Status.Name,
+                dbTask.Id))
+            .ToList();
         }
 
-        public async System.Threading.Tasks.Task InsertTaskToProject(Task task, int projectID)
+        public Task GetTask(int projectId, int id)
+        {
+            return db.Tasks
+                .Where(dbTask => dbTask.Id == id && dbTask.ProjectId == projectId)
+                .Select(dbTask => new Task(
+                dbTask.Title,
+                dbTask.Description,
+                dbTask.Deadline,
+                dbTask.Priority,
+                dbTask.Status.Name,
+                dbTask.Id))
+                .FirstOrDefault();
+        }
+
+        public async System.Threading.Tasks.Task InsertTaskToProject(int projectId, Task task)
         {
             int statusID = await GetStatusIDByName(task.StatusName);
-            await HandleAddingNewPriority(task.Priority, statusID, projectID);
+            await HandleAddingNewPriority(task.Priority, statusID, projectId);
 
-            EF.dbTask dbTask = new EF.dbTask();
-            dbTask.Priority = task.Priority;
-            dbTask.StatusId = statusID;
-            dbTask.Title = task.Title;
-            dbTask.ProjectId = projectID;
-            dbTask.Deadline = task.Deadline;
-            dbTask.Description = task.Description;
+            EF.dbTask dbTask = new EF.dbTask
+            {
+                Priority = task.Priority,
+                StatusId = statusID,
+                Title = task.Title,
+                Deadline = task.Deadline,
+                Description = task.Description,
+                ProjectId = projectId
+            };
 
             db.Tasks.Add(dbTask);
             await db.SaveChangesAsync();
+            task.ID = dbTask.Id;
         }
 
         public async System.Threading.Tasks.Task UpdateTask(Task task)
         {
-            if (task.ID == 0)
-                return;
-
             int statusID = await GetStatusIDByName(task.StatusName);
             var taskDb = await db.Tasks.Where(t => t.Id == task.ID).FirstOrDefaultAsync();
             await HandleAddingNewPriority(task.Priority, statusID, taskDb.ProjectId);
@@ -71,7 +94,7 @@ namespace ToDoDAL
 
         private async System.Threading.Tasks.Task<int> GetStatusIDByName(string statusName)
         {
-            return await System.Threading.Tasks.Task.FromResult<int>(db.Statuses
+            return await System.Threading.Tasks.Task.FromResult(db.Statuses
                 .Where(s => s.Name == statusName)
                 .Select(s => s.Id)
                 .FirstOrDefault());

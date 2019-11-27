@@ -30,7 +30,17 @@ namespace ToDoDAL
 
         public IEnumerable<Project> GetProjects()
         {
-            return db.Projects.Select(dbProject => new Project(dbProject.Title, dbProject.Description, dbProject.Id)).ToList();
+            return db.Projects
+                .Select(dbProject => new Project(dbProject.Title, dbProject.Description, dbProject.Id))
+                .ToList();
+        }
+
+        public Project GetProjectById(int id)
+        {
+            return db.Projects
+                .Where(dbProject => dbProject.Id == id)
+                .Select(dbProject => new Project(dbProject.Title, dbProject.Description, dbProject.Id))
+                .FirstOrDefault();
         }
 
         public async System.Threading.Tasks.Task InsertProject(Project project)
@@ -41,6 +51,7 @@ namespace ToDoDAL
 
             db.Projects.Add(dbProject);
             await db.SaveChangesAsync();
+            project.Id = dbProject.Id;
         }
 
         public async System.Threading.Tasks.Task UpdateProject(Project project)

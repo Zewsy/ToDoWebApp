@@ -6,17 +6,18 @@ namespace ToDoDAL
 {
     public class Task
     {
-        public Task(string title, string description, DateTime deadline, int priority, string status, int id = 0)
+        public Task() { }
+        public Task(string title, string description, DateTime deadline, int priority, string statusName, int id)
         {
             ID = id;
             Title = title;
             Description = description;
             Deadline = deadline;
             Priority = priority;
-            StatusName = status;
+            StatusName = statusName;
         }
 
-        public int? ID { get; set; }
+        public int ID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime Deadline { get; set; }

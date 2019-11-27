@@ -33,6 +33,14 @@ namespace ToDoDAL
             return db.Statuses.Select(s => new Status(s.Name, s.Id)).ToList();
         }
 
+        public Status GetStatus(int id)
+        {
+            return db.Statuses
+                .Where(s => s.Id == id)
+                .Select(s => new Status(s.Name, s.Id))
+                .FirstOrDefault();
+        }
+
         public async System.Threading.Tasks.Task InsertStatus(Status status)
         {
             EF.dbStatus dbStatus = new EF.dbStatus();
@@ -40,6 +48,7 @@ namespace ToDoDAL
 
             db.Statuses.Add(dbStatus);
             await db.SaveChangesAsync();
+            status.Id = dbStatus.Id;
         }
     }
 }

@@ -6,7 +6,8 @@ namespace ToDoDAL
 {
     public class Status
     {
-        public Status(string name, int id = 0)
+        public Status() { }
+        public Status(string name, int id)
         {
             Id = id;
             Name = name;
