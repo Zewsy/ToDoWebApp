@@ -3,6 +3,7 @@ import {styles} from './formDialogStyles';
 import {withStyles} from '@material-ui/core/styles';
 import { withRouter } from 'react-router';
 import {connect} from 'react-redux';
+import moment from 'moment';
 
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -21,7 +22,7 @@ class FormDialog extends React.Component{
     constructor(props){
         super(props);
         this.state = {id: this.props.editingTaskData.id,
-                      status: this.props.editingTaskData.status,
+                      statusName: this.props.editingTaskData.statusName,
                       title: this.props.editingTaskData.title,
                       description: this.props.editingTaskData.description,
                       priority: this.props.editingTaskData.priority,
@@ -40,14 +41,14 @@ class FormDialog extends React.Component{
     }
 
     handleSubmitClick(){
-        const task = {id: this.state.id, project: this.props.projectId, status: parseInt(this.state.status), title: this.state.title, description: this.state.description, priority: this.state.priority, deadline: this.state.deadline}
+        const task = {id: this.state.id, project: this.props.projectId, statusName: this.state.statusName, title: this.state.title, description: this.state.description, priority: this.state.priority, deadline: this.state.deadline}
         this.props.submitDialog(task);
         this.props.closeDialog();
     }
 
     render(){
         const classes = this.props.classes;
-        const statusOptions = this.props.statuses.map(s => {return (<option value={s.id} key={s.id}>{s.name}</option>)});
+        const statusOptions = this.props.statuses.map(s => {return (<option value={s.name} key={s.id}>{s.name}</option>)});
         return(
             <Dialog open={this.props.isDialogActive} onClose={this.props.closeDialog}>
                 <DialogTitle>{this.props.dialogTitle}</DialogTitle>
@@ -59,10 +60,10 @@ class FormDialog extends React.Component{
                         <TextField className={classes.dialog} name="description" value={this.state.description} onChange={this.handleChange}/>
                         
                         <InputLabel className={classes.dialog}>Határidő</InputLabel>
-                        <TextField className={classes.dialog} type="date" name="deadline" value={this.state.deadline} onChange={this.handleChange}/>
+                        <TextField className={classes.dialog} type="date" name="deadline" value={moment(this.state.deadline).format("YYYY-MM-DD")} onChange={this.handleChange}/>
                         
                         <InputLabel className={classes.dialog}>Állapot</InputLabel>
-                        <Select className={classes.dialog} native name="status" value={this.state.status} onChange={this.handleChange}>
+                        <Select className={classes.dialog} native name="statusName" value={this.state.statusName} onChange={this.handleChange}>
                             {statusOptions}
                         </Select>
 

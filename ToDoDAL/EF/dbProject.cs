@@ -11,9 +11,10 @@ namespace ToDoDAL.EF
         }
 
         public int Id { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
 
         public virtual ICollection<dbTask> Tasks { get; set; }
+        public virtual ICollection<dbStatus> Statuses { get; set; }
     }
 }

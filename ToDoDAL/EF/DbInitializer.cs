@@ -16,27 +16,27 @@ namespace ToDoDAL.EF
                 return;
             }
 
-            var statuses = new dbStatus[]
-            {
-                new dbStatus{Name="Done"},
-                new dbStatus{Name="In Progress"},
-                new dbStatus{Name="Pending"},
-                new dbStatus{Name="Suspended"}
-            };
-
-            foreach (dbStatus s in statuses)
-                context.Statuses.Add(s);
-
-            context.SaveChanges();
-
             var projects = new dbProject[]
             {
-                new dbProject{Title="Main Project", Description="Making the backend"},
-                new dbProject{Title="Project 2", Description="asd1234 afafoepfio poakfe apfkao ffjaiofh fe iuafeaeufnnafnief if heu"}
+                new dbProject{Name="Main Project", Description="Making the backend"},
+                new dbProject{Name="Project 2", Description="asd1234 afafoepfio poakfe apfkao ffjaiofh fe iuafeaeufnnafnief if heu"}
             };
 
             foreach (dbProject p in projects)
                 context.Projects.Add(p);
+
+            context.SaveChanges();
+
+            var statuses = new dbStatus[]
+{
+                new dbStatus{Name="Done", ProjectId=1},
+                new dbStatus{Name="In Progress", ProjectId=1},
+                new dbStatus{Name="Pending", ProjectId=1},
+                new dbStatus{Name="Suspended", ProjectId=1}
+};
+
+            foreach (dbStatus s in statuses)
+                context.Statuses.Add(s);
 
             context.SaveChanges();
 

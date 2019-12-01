@@ -18,22 +18,11 @@ class TaskContainer extends React.Component{
         this.state = {
             projectId: this.props.location.state.selectedProject
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.fetchData = this.fetchData.bind(this);
-    }
-
-    fetchData(){
-        this.props.fetchTasks();
-        this.props.fetchStatuses();
-    }
-
-    handleChange(){
-       this.fetchData();
     }
 
     componentDidMount(){
-        this.fetchData();
+        this.props.fetchTasks();
+        this.props.fetchStatuses();
     }
 
     render(){
@@ -49,9 +38,9 @@ class TaskContainer extends React.Component{
         const statuses = this.props.statuses;
         const taskTables = [];
         statuses.forEach(status => {
-            const statusTasks = tasks.filter(t => {return t.status === status.id && t.project === this.state.projectId}).sort((t1, t2) => taskComparator(t1, t2));
+            const statusTasks = tasks.filter(t => {return t.statusName === status.name}).sort((t1, t2) => taskComparator(t1, t2));
             taskTables.push(<Grid key={status.id} item>
-                                <TaskTable projectId = {this.state.projectId} status={status} tasks={statusTasks} onChange={this.handleChange}/>
+                                <TaskTable projectId = {this.state.projectId} status={status} tasks={statusTasks}/>
                             </Grid>)
         });
 

@@ -7,15 +7,15 @@ namespace ToDoDAL
     public class Project
     {
         public Project() { }
-        public Project(string title, string description, int id)
+        public Project(string name, string description, int id)
         {
             Id = id;
-            Title = title;
+            Name = name;
             Description = description;
         }
 
         public int Id { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
     }
 }

@@ -20,7 +20,6 @@ class Task extends React.Component{
 
     handleDelClick(){
         this.props.deleteTask(this.props.id);
-        this.props.onDelete();
     }
 
     handleEditClick(){
@@ -28,7 +27,7 @@ class Task extends React.Component{
                         title: this.props.title,
                         description: this.props.description,
                         deadline: this.props.deadline,
-                        status: this.props.status,
+                        statusName: this.props.statusName,
                         priority: this.props.priority};
         this.props.onEditClick(taskData);
     }

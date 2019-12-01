@@ -1,10 +1,9 @@
-import {deleteTask} from './taskActions';
-
 export const FETCH_STATUSES_SUCCESS = 'FETCH_STATUSES_SUCCESS';
 export const DELETE_STATUS_SUCCESS = 'DELETE_STATUS_SUCCESS';
 export const ADD_STATUS_SUCCESS = 'ADD_STATUS_SUCCESS';
 
-const statusUrl = "http://localhost:3001/statuses/"
+const statusUrlStart = "http://localhost:58313/api/Projects/";
+const statusUrlAfterProjectId = "/Statuses/";
 
 function deleteStatusSuccess(statusId){
     return{
@@ -31,21 +30,19 @@ export function deleteStatus(status){
     return function(dispatch, getState){
         const statuses = getState().statuses.statuses;
         const statusId = statuses.find(s => s.name.match(status)).id;
-        const tasks = getState().tasks.tasks;
-        const idsToDelete = tasks.filter(t => {return t.status === statusId}).map(t => {return t.id});
-        idsToDelete.forEach(
-          id => {dispatch(deleteTask(id))}
-        )
-        fetch(statusUrl + statusId,{
+        const projectId = getState().tasks.selectedProject;
+        fetch(statusUrlStart + projectId + statusUrlAfterProjectId + statusId,{
             method: 'DELETE'
         })
+        //.then(() => dispatch(deleteTasksWithStatus())) TODO
         .then(() => dispatch(deleteStatusSuccess(statusId)))
     }
 }
 
 export function fetchStatuses(){
-    return function(dispatch){
-        return fetch(statusUrl)
+    return function(dispatch, getState){
+        const projectId = getState().tasks.selectedProject;
+        return fetch(statusUrlStart + projectId + statusUrlAfterProjectId)
         .then(res => res.json())
         .then(res => {
             dispatch(fetchStatusesSuccess(res))
@@ -54,16 +51,17 @@ export function fetchStatuses(){
 }
 
 export function addStatus(status){
-    return function(dispatch){
-        fetch(statusUrl, {
+    return function(dispatch, getState){
+        const projectId = getState().tasks.selectedProject;
+        fetch(statusUrlStart + projectId + statusUrlAfterProjectId, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: status.id,
                 name: status.name
             })
-        }).then(() => dispatch(addStatusSuccess(status)))
+        }).then(res => res.json())
+        .then((res) => dispatch(addStatusSuccess(res)))
     }
 } 

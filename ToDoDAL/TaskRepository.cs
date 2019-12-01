@@ -32,7 +32,7 @@ namespace ToDoDAL
         public IEnumerable<Task> GetTasksFromProject(int projectId)
         {
             return db.Tasks
-             .Where(dbTask => dbTask.ProjectId == projectId)
+             .Where(dbTask => dbTask.Project.Id == projectId)
              .Select(dbTask => new Task(
                 dbTask.Title,
                 dbTask.Description,
@@ -46,7 +46,7 @@ namespace ToDoDAL
         public Task GetTask(int projectId, int id)
         {
             return db.Tasks
-                .Where(dbTask => dbTask.Id == id && dbTask.ProjectId == projectId)
+                .Where(dbTask => dbTask.Id == id && dbTask.Project.Id == projectId)
                 .Select(dbTask => new Task(
                 dbTask.Title,
                 dbTask.Description,
@@ -59,17 +59,17 @@ namespace ToDoDAL
 
         public async System.Threading.Tasks.Task InsertTaskToProject(int projectId, Task task)
         {
-            int statusID = await GetStatusIDByName(task.StatusName);
+            int statusID = await GetStatusIDByName(projectId, task.StatusName);
             await HandleAddingNewPriority(task.Priority, statusID, projectId);
 
             EF.dbTask dbTask = new EF.dbTask
             {
                 Priority = task.Priority,
                 StatusId = statusID,
+                ProjectId = projectId,
                 Title = task.Title,
                 Deadline = task.Deadline,
-                Description = task.Description,
-                ProjectId = projectId
+                Description = task.Description
             };
 
             db.Tasks.Add(dbTask);
@@ -77,25 +77,24 @@ namespace ToDoDAL
             task.ID = dbTask.Id;
         }
 
-        public async System.Threading.Tasks.Task UpdateTask(Task task)
+        public async System.Threading.Tasks.Task UpdateTask(int projectId, Task task)
         {
-            int statusID = await GetStatusIDByName(task.StatusName);
+            int statusID = await GetStatusIDByName(projectId, task.StatusName);
             var taskDb = await db.Tasks.Where(t => t.Id == task.ID).FirstOrDefaultAsync();
-            await HandleAddingNewPriority(task.Priority, statusID, taskDb.ProjectId);
+            await HandleAddingNewPriority(task.Priority, statusID, projectId);
 
             taskDb.Priority = task.Priority;
             taskDb.StatusId = statusID;
-            taskDb.Title = task.Title;
             taskDb.Description = task.Description;
             taskDb.Deadline = task.Deadline;
 
             await db.SaveChangesAsync();
         }
 
-        private async System.Threading.Tasks.Task<int> GetStatusIDByName(string statusName)
+        private async System.Threading.Tasks.Task<int> GetStatusIDByName(int projectId, string statusName)
         {
             return await System.Threading.Tasks.Task.FromResult(db.Statuses
-                .Where(s => s.Name == statusName)
+                .Where(s => s.Name == statusName && s.ProjectId == projectId)
                 .Select(s => s.Id)
                 .FirstOrDefault());
         }
@@ -103,13 +102,13 @@ namespace ToDoDAL
         private async System.Threading.Tasks.Task HandleAddingNewPriority(int priority, int statusId, int projectId)
         {
             var conflictTask = await db.Tasks
-                                    .Where(t => t.ProjectId == projectId &&t.StatusId == statusId && t.Priority == priority)
+                                    .Where(t => t.Project.Id == projectId &&t.StatusId == statusId && t.Priority == priority)
                                     .FirstOrDefaultAsync();
             if(conflictTask != null)
             {
                 var tasks = await db.Tasks
                             .OrderBy(t => t.Priority)
-                            .Where(t => t.ProjectId == projectId && t.StatusId == statusId && t.Priority >= priority)
+                            .Where(t => t.Project.Id == projectId && t.StatusId == statusId && t.Priority >= priority)
                             .ToListAsync();
                 foreach (EF.dbTask t in tasks)
                     t.Priority++;

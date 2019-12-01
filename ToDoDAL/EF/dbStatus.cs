@@ -12,7 +12,9 @@ namespace ToDoDAL.EF
 
         public int Id { get; set; }
         public string Name { get; set; }
-
+        public int ProjectId { get; set; }
         public virtual ICollection<dbTask> Tasks { get; set; }
+        public virtual dbProject Project { get; set; }
+
     }
 }

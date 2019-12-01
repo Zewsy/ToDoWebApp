@@ -15,7 +15,7 @@ function StatusBar(props){
         <tr>
             <th>
                 {props.status.name}
-                <IconButton className={props.classes.btnAdd} aria-label="add" size='small' onClick={() => props.openDialog(props.status.id)}>
+                <IconButton className={props.classes.btnAdd} aria-label="add" size='small' onClick={() => props.openDialog(props.status.name)}>
                     <AddIcon size='medium' color='action' />
                 </IconButton>
                 <IconButton aria-label="remove" size='small' onClick={() => props.deleteStatus(props.status.name)}>
@@ -28,8 +28,8 @@ function StatusBar(props){
 
 function mapDispatchToProps(dispatch){
     return {
-        openDialog: (status) => dispatch(openDialog(status)),
-        deleteStatus: (status) => dispatch(deleteStatus(status))
+        openDialog: (statusName) => dispatch(openDialog(statusName)),
+        deleteStatus: (statusName) => dispatch(deleteStatus(statusName))
     }
 }
 

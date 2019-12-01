@@ -30,10 +30,10 @@ namespace TodoAppWeb
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
-            //services.AddSpaStaticFiles(configuration =>
-            //{
-                //configuration.RootPath = "ClientApp/build";
-            //});
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +52,7 @@ namespace TodoAppWeb
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            //app.UseSpaStaticFiles();
+            app.UseSpaStaticFiles();
 
             app.UseRouting();
 
@@ -63,7 +63,7 @@ namespace TodoAppWeb
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            /*app.UseSpa(spa =>
+            app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
 
@@ -71,7 +71,7 @@ namespace TodoAppWeb
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
-            });*/
+            });
         }
     }
 }

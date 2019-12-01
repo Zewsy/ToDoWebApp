@@ -39,6 +39,12 @@ namespace ToDoDAL.EF
             modelBuilder.Entity<dbStatus>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.ProjectId).HasColumnName("ProjectID");
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.Statuses)
+                    .HasForeignKey(d => d.ProjectId);
             });
 
             modelBuilder.Entity<dbTask>(entity =>
@@ -55,7 +61,8 @@ namespace ToDoDAL.EF
 
                 entity.HasOne(d => d.Project)
                     .WithMany(p => p.Tasks)
-                    .HasForeignKey(d => d.ProjectId);
+                    .HasForeignKey(d => d.ProjectId)
+                    .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(d => d.Status)
                     .WithMany(p => p.Tasks)

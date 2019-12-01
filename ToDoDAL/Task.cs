@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ToDoDAL
 {
     public class Task
     {
         public Task() { }
-        public Task(string title, string description, DateTime deadline, int priority, string statusName, int id)
+        public Task(string title, string description, DateTime deadline, int priority, String statusName, int id)
         {
             ID = id;
             Title = title;

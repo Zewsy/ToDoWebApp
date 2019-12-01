@@ -1,5 +1,5 @@
 import {OPEN_DIALOG, CLOSE_DIALOG, OPEN_EDIT_DIALOG, OPEN_NEWSTATUS_DIALOG} from "../actions/dialogActions";
-import uuid from "uuid";
+import uuid from 'uuid';
 
 const initialState = {
     editingTaskData: {
@@ -8,7 +8,7 @@ const initialState = {
         description: '',
         priority: '',
         deadline: '',
-        status: ''
+        statusName: ''
     },
     newStatusId: '',
     isNewStatusDialogActive: false,
@@ -26,7 +26,11 @@ export function dialogReducer(state = initialState, action){
                 dialogTitle: 'Teendő hozzáadása',
                 editingTaskData: {
                     id: uuid.v4(),
-                    status: action.status,
+                    title: '',
+                    description: '',
+                    priority: 1,
+                    deadline: '2000-01-01',
+                    statusName: action.statusName
                 }
             }
         case OPEN_EDIT_DIALOG: {
@@ -41,7 +45,7 @@ export function dialogReducer(state = initialState, action){
                     description: action.data.description,
                     priority: action.data.priority,
                     deadline: action.data.deadline,
-                    status: action.data.status
+                    statusName: action.data.statusName
                 }
             }
         }
@@ -56,7 +60,6 @@ export function dialogReducer(state = initialState, action){
         case OPEN_NEWSTATUS_DIALOG: {
             return {
                 ...state,
-                newStatusId: uuid.v4(),
                 isNewStatusDialogActive: true
             }
         }

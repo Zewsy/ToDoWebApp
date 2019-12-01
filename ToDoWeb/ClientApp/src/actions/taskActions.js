@@ -2,8 +2,17 @@ export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS';
 export const ADD_TASK_SUCCESS = 'ADD_TASK_SUCCESS';
 export const TASK_EDITED = 'TASK_EDITED';
+export const PROJECT_SELECTED = 'PROJECT_SELECTED';
 
-const taskUrl = "http://localhost:3001/todos/";
+const taskUrlStart = "http://localhost:58313/api/Projects/";
+const taskUrlAfterProjectId = "/Tasks/";
+
+export function projectSelected(projectId) {
+    return {
+        type: PROJECT_SELECTED,
+        projectId: projectId
+    }
+}
 
 function deleteTaskSuccess(taskId){
     return{
@@ -34,8 +43,9 @@ function taskEdited(task){
 }
 
 export function deleteTask(taskId){
-    return function(dispatch){
-        fetch(taskUrl + taskId,{
+    return function(dispatch, getState){
+        const projectId = getState().tasks.selectedProject;
+        fetch(taskUrlStart + projectId + taskUrlAfterProjectId + taskId,{
             method: 'DELETE'
         })
         .then(() => dispatch(deleteTaskSuccess(taskId)))
@@ -43,8 +53,9 @@ export function deleteTask(taskId){
 }
 
 export function fetchTasks(){
-    return function(dispatch){
-        return fetch(taskUrl)
+    return function(dispatch, getState){
+        const projectId = getState().tasks.selectedProject;
+        return fetch(taskUrlStart + projectId + taskUrlAfterProjectId)
         .then(res => res.json())
         .then(res => {
             dispatch(fetchTasksSuccess(res));
@@ -54,26 +65,28 @@ export function fetchTasks(){
 
 export function addTask(task){
     return function(dispatch, getState){
-        fetch(taskUrl, {
+        const projectId = getState().tasks.selectedProject;
+        fetch(taskUrlStart + projectId + taskUrlAfterProjectId, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: task.id,
                 title: task.title,
                 description: task.description,
                 deadline: task.deadline,
-                status: task.status,
-                priority: parseInt(task.priority),
-                project: task.project
-            })}).then(() => dispatch(addTaskSuccess(task)))
+                statusName: task.statusName,
+                priority: parseInt(task.priority)
+            })})
+            .then(res => res.json())
+            .then(res => dispatch(addTaskSuccess(res)))
     }
 }
 
 export function editTask(task){
-    return function(dispatch, getState){
-        fetch(taskUrl + task.id,{
+    return function(dispatch,getState){
+        const projectId = getState().tasks.selectedProject;
+        fetch(taskUrlStart + projectId + taskUrlAfterProjectId + task.id,{
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -83,9 +96,8 @@ export function editTask(task){
                 title: task.title,
                 description: task.description,
                 deadline: task.deadline,
-                status: task.status,
-                priority: parseInt(task.priority),
-                project: task.project
+                statusName: task.statusName,
+                priority: parseInt(task.priority)
             })
         }).then(() => dispatch(taskEdited(task)))
     }

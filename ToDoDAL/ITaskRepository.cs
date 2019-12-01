@@ -8,7 +8,7 @@ namespace ToDoDAL
         Task GetTask(int projectId, int taskId);
         System.Threading.Tasks.Task DeleteTask(int taskId);
         System.Threading.Tasks.Task InsertTaskToProject(int projectId, Task task);
-        System.Threading.Tasks.Task UpdateTask(Task task);
+        System.Threading.Tasks.Task UpdateTask(int projectId, Task task);
 
     }
 }

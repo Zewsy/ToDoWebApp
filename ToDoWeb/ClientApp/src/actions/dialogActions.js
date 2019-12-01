@@ -13,10 +13,10 @@ export function openEditDialog(task){
     }
 }
 
-export function openDialog(status){
+export function openDialog(statusName){
     return {
         type: OPEN_DIALOG,
-        status: status
+        statusName: statusName
     }
 }
 

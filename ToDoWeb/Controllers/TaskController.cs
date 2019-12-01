@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ToDoDAL;
 
@@ -54,7 +51,7 @@ namespace ToDoWeb.Controllers
             if (id != task.ID)
                 return BadRequest();
 
-            await taskRepository.UpdateTask(task);
+            await taskRepository.UpdateTask(projectId, task);
 
             return NoContent();
         }

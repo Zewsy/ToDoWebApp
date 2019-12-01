@@ -1,6 +1,8 @@
 import React from 'react';
 import {styles} from './projectStyles';
 import {withStyles} from '@material-ui/core/styles';
+import {projectSelected} from '../../actions/taskActions';
+import {connect} from 'react-redux';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -27,10 +29,10 @@ class Project extends React.Component{
     }
 
     handleClick(){
+        this.props.projectSelected(this.state.id);
         this.props.history.push({
             pathname: '/tasks',
-            state: {selectedProject: this.state.id,
-                    name: this.state.name}
+            state: {name: this.state.name}
         });
     }
 
@@ -54,4 +56,10 @@ class Project extends React.Component{
     }
 }
 
-export default withStyles(styles)(Project);
+function mapDispatchToProps(dispatch){
+    return {
+        projectSelected: (projectId) => dispatch(projectSelected(projectId))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(Project));

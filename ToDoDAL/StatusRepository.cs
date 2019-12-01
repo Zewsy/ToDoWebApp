@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ToDoDAL.EF;
 
 namespace ToDoDAL
@@ -16,7 +13,7 @@ namespace ToDoDAL
         {
             this.db = db;
         }
-        public async System.Threading.Tasks.Task DeleteStatus(int statusID)
+        public async System.Threading.Tasks.Task DeleteStatus(int projectId, int statusID)
         {
             EF.dbStatus status = null;
             status = await db.Statuses.Where(s => s.Id == statusID).FirstOrDefaultAsync();
@@ -28,12 +25,12 @@ namespace ToDoDAL
             await db.SaveChangesAsync();
         }
 
-        public IEnumerable<Status> GetStatuses()
+        public IEnumerable<Status> GetStatuses(int projectId)
         {
-            return db.Statuses.Select(s => new Status(s.Name, s.Id)).ToList();
+            return db.Statuses.Where(s => s.ProjectId == projectId).Select(s => new Status(s.Name, s.Id)).ToList();
         }
 
-        public Status GetStatus(int id)
+        public Status GetStatus(int projectId, int id)
         {
             return db.Statuses
                 .Where(s => s.Id == id)
@@ -41,10 +38,13 @@ namespace ToDoDAL
                 .FirstOrDefault();
         }
 
-        public async System.Threading.Tasks.Task InsertStatus(Status status)
+        public async System.Threading.Tasks.Task InsertStatus(int projectId, Status status)
         {
-            EF.dbStatus dbStatus = new EF.dbStatus();
-            dbStatus.Name = status.Name;
+            EF.dbStatus dbStatus = new EF.dbStatus
+            {
+                Name = status.Name,
+                ProjectId = projectId
+            };
 
             db.Statuses.Add(dbStatus);
             await db.SaveChangesAsync();
