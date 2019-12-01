@@ -1,3 +1,5 @@
+import {deleteTasksWithStatus} from './taskActions';
+
 export const FETCH_STATUSES_SUCCESS = 'FETCH_STATUSES_SUCCESS';
 export const DELETE_STATUS_SUCCESS = 'DELETE_STATUS_SUCCESS';
 export const ADD_STATUS_SUCCESS = 'ADD_STATUS_SUCCESS';
@@ -26,15 +28,15 @@ function addStatusSuccess(data){
     }
 }
 
-export function deleteStatus(status){
+export function deleteStatus(statusName){
     return function(dispatch, getState){
         const statuses = getState().statuses.statuses;
-        const statusId = statuses.find(s => s.name.match(status)).id;
+        const statusId = statuses.find(s => s.name.match(statusName)).id;
         const projectId = getState().tasks.selectedProject;
         fetch(statusUrlStart + projectId + statusUrlAfterProjectId + statusId,{
             method: 'DELETE'
         })
-        //.then(() => dispatch(deleteTasksWithStatus())) TODO
+        .then(() => dispatch(deleteTasksWithStatus(statusName)))
         .then(() => dispatch(deleteStatusSuccess(statusId)))
     }
 }

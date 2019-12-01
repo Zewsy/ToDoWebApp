@@ -42,7 +42,7 @@ export function deleteProject(projectId){
   }
 }
 
-export function addProject(project){
+export function addProject(project, history){
   return function(dispatch){
       fetch(url,{
         method: 'POST',
@@ -53,6 +53,7 @@ export function addProject(project){
           name: project.name,
           description: project.desc
         })
-      }).then(() => dispatch(addProjectSuccess(project)));
+      }).then(() => dispatch(addProjectSuccess(project)))
+      .then(() => history.push('/'));
   }
 }

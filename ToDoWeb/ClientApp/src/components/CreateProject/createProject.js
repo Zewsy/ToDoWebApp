@@ -25,8 +25,7 @@ class CreateProject extends React.Component{
     handleSubmitClick(e){
         e.preventDefault();
         const project = {name: this.state.name, desc: this.state.desc};
-        this.props.addProject(project);
-        this.props.history.push('/');
+        this.props.addProject(project, this.props.history);
     }
     
     handleChange(e){
@@ -58,7 +57,7 @@ class CreateProject extends React.Component{
 
 function mapDispatchToProps(dispatch){
     return {
-        addProject: (p) => dispatch(addProject(p))
+        addProject: (p, history) => dispatch(addProject(p, history))
     }
 }
 

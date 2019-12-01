@@ -1,6 +1,7 @@
 export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS';
 export const ADD_TASK_SUCCESS = 'ADD_TASK_SUCCESS';
+export const ADD_TASKS_SUCCESS = 'ADD_TASKS_SUCCESS';
 export const TASK_EDITED = 'TASK_EDITED';
 export const PROJECT_SELECTED = 'PROJECT_SELECTED';
 
@@ -28,6 +29,13 @@ function fetchTasksSuccess(data){
     }
 }
 
+function addAllTasksSuccess(tasks){
+    return {
+        type: ADD_TASKS_SUCCESS,
+        data: tasks
+    }
+}
+
 function addTaskSuccess(task){
     return {
         type: ADD_TASK_SUCCESS,
@@ -35,10 +43,37 @@ function addTaskSuccess(task){
     }
 }
 
+function handleAddingNewPriority(addResult){
+    return function(dispatch, getState){
+        let tasks = getState().tasks.tasks;
+        if(tasks.find(t => t.statusName === addResult.statusName && t.priority === addResult.priority)){
+            let tasksModified = 
+            tasks
+            .map(t => (t.statusName === addResult.statusName && t.priority >= addResult.priority) ? {...t, priority: t.priority+1} : t)
+            .concat(addResult);
+            dispatch(addAllTasksSuccess(tasksModified));
+        }
+        else{
+            dispatch(addTaskSuccess(addResult));
+        }
+    }
+}
+
 function taskEdited(task){
     return {
         type: TASK_EDITED,
         data: task
+    }
+}
+
+export function deleteTasksWithStatus(statusName) {
+    return function(dispatch, getState){
+        const tasks = getState().tasks.tasks;
+        tasks.forEach(t => 
+            {if(t.statusName === statusName)
+                dispatch(deleteTaskSuccess(t.id));
+            }
+        )
     }
 }
 
@@ -79,7 +114,7 @@ export function addTask(task){
                 priority: parseInt(task.priority)
             })})
             .then(res => res.json())
-            .then(res => dispatch(addTaskSuccess(res)))
+            .then(res => dispatch(handleAddingNewPriority(res)))
     }
 }
 

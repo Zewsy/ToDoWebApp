@@ -60,7 +60,7 @@ namespace ToDoDAL
         public async System.Threading.Tasks.Task InsertTaskToProject(int projectId, Task task)
         {
             int statusID = await GetStatusIDByName(projectId, task.StatusName);
-            await HandleAddingNewPriority(task.Priority, statusID, projectId);
+            await HandleAddingNewPriority(task.Priority, statusID);
 
             EF.dbTask dbTask = new EF.dbTask
             {
@@ -81,7 +81,7 @@ namespace ToDoDAL
         {
             int statusID = await GetStatusIDByName(projectId, task.StatusName);
             var taskDb = await db.Tasks.Where(t => t.Id == task.ID).FirstOrDefaultAsync();
-            await HandleAddingNewPriority(task.Priority, statusID, projectId);
+            await HandleAddingNewPriority(task.Priority, statusID);
 
             taskDb.Priority = task.Priority;
             taskDb.StatusId = statusID;
@@ -99,16 +99,16 @@ namespace ToDoDAL
                 .FirstOrDefault());
         }
 
-        private async System.Threading.Tasks.Task HandleAddingNewPriority(int priority, int statusId, int projectId)
+        private async System.Threading.Tasks.Task HandleAddingNewPriority(int priority, int statusId)
         {
             var conflictTask = await db.Tasks
-                                    .Where(t => t.Project.Id == projectId &&t.StatusId == statusId && t.Priority == priority)
+                                    .Where(t => t.StatusId == statusId && t.Priority == priority)
                                     .FirstOrDefaultAsync();
             if(conflictTask != null)
             {
                 var tasks = await db.Tasks
                             .OrderBy(t => t.Priority)
-                            .Where(t => t.Project.Id == projectId && t.StatusId == statusId && t.Priority >= priority)
+                            .Where(t => t.StatusId == statusId && t.Priority >= priority)
                             .ToListAsync();
                 foreach (EF.dbTask t in tasks)
                     t.Priority++;

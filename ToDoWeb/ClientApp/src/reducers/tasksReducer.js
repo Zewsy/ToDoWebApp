@@ -1,4 +1,4 @@
-import { DELETE_TASK_SUCCESS, FETCH_TASKS_SUCCESS, ADD_TASK_SUCCESS, TASK_EDITED, PROJECT_SELECTED} from "../actions/taskActions";
+import { DELETE_TASK_SUCCESS, FETCH_TASKS_SUCCESS, ADD_TASK_SUCCESS, ADD_TASKS_SUCCESS, TASK_EDITED, PROJECT_SELECTED} from "../actions/taskActions";
 
 const initialState = {
     tasks: [],
@@ -13,6 +13,11 @@ export function taskReducer(state = initialState, action){
                 tasks: state.tasks.filter((e) => e.id !== action.id)
             }
         case FETCH_TASKS_SUCCESS:
+            return {
+                ...state,
+                tasks: action.data
+            }
+        case ADD_TASKS_SUCCESS:
             return {
                 ...state,
                 tasks: action.data
