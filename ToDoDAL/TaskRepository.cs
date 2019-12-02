@@ -33,6 +33,7 @@ namespace ToDoDAL
         {
             return db.Tasks
              .Where(dbTask => dbTask.Project.Id == projectId)
+             .OrderBy(t => t.Priority)
              .Select(dbTask => new Task(
                 dbTask.Title,
                 dbTask.Description,

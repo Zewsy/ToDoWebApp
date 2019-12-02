@@ -22,11 +22,14 @@ namespace ToDoDAL.EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile("appsettings.json")
-            .Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("TodoDb"));
+            if (!optionsBuilder.IsConfigured)
+            {
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("D:\\bme\\ToDoWebApp\\ToDoWeb\\appsettings.json")
+                .Build();
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("TodoDb"));
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

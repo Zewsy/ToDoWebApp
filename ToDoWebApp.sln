@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoWeb", "ToDoWeb\ToDoWeb.csproj", "{CB31765F-5D31-4EBA-8A84-C7397709EA32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoWeb", "ToDoWeb\ToDoWeb.csproj", "{CB31765F-5D31-4EBA-8A84-C7397709EA32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoDAL", "ToDoDAL\ToDoDAL.csproj", "{578A0081-5F0E-43E1-B056-E250F5D32283}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoDAL", "ToDoDAL\ToDoDAL.csproj", "{578A0081-5F0E-43E1-B056-E250F5D32283}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoTest", "ToDoTest\ToDoTest.csproj", "{5148A3EE-7D29-4FF7-B458-FB9EC2BCA40E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{578A0081-5F0E-43E1-B056-E250F5D32283}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{578A0081-5F0E-43E1-B056-E250F5D32283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{578A0081-5F0E-43E1-B056-E250F5D32283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5148A3EE-7D29-4FF7-B458-FB9EC2BCA40E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5148A3EE-7D29-4FF7-B458-FB9EC2BCA40E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5148A3EE-7D29-4FF7-B458-FB9EC2BCA40E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5148A3EE-7D29-4FF7-B458-FB9EC2BCA40E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
