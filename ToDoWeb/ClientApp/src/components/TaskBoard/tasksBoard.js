@@ -9,7 +9,7 @@ function TasksBoard(props){
     return(
         <ThemeProvider theme={taskBoardTheme}>
             <div>
-                <ProjectBar name={props.location.state.name} history={props.history} />
+                <ProjectBar name={props.location.state.name} />
                 <TaskContainer />
             </div>
         </ThemeProvider>
