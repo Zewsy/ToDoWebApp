@@ -4,3 +4,5 @@ A ToDoWebApp egy egyszerű **teendőket kezelő webalkalmazás**, amelyben a tee
 A teendőket projekteken keresztül érhetjük el. Rendelkeznek címmel, leírással, határidővel és állapottal. Az állapotok a felhasználó által megadhatóak. A teendők sorrendbe állíthatók a prioritásuk módosításával.
 
 A frontend a **React** technológián, a backend **ASP. NET Core**-n alapul.
+
+Frontend forráskód/dokumentáció: [React src](https://github.com/Zewsy/ToDoWebApp/tree/master/ToDoWeb/ClientApp/src)
