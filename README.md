@@ -8,3 +8,5 @@ A frontend a **React** technológián, a backend **ASP. NET Core**-n alapul.
 Frontend forráskód/dokumentáció: [React src](https://github.com/Zewsy/ToDoWebApp/tree/master/ToDoWeb/ClientApp/src)
 
 REST Api controllerek/dokumentáció: [REST Api](https://github.com/Zewsy/ToDoWebApp/tree/master/ToDoWeb/Controllers)
+
+Adatbázis, Data Access Layer, repositories: [DAL](https://github.com/Zewsy/ToDoWebApp/tree/master/ToDoDAL)
