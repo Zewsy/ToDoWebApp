@@ -2,7 +2,7 @@ export const DELETE_TASK_SUCCESS = 'DELETE_TASK_SUCCESS';
 export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS';
 export const ADD_TASK_SUCCESS = 'ADD_TASK_SUCCESS';
 export const ADD_TASKS_SUCCESS = 'ADD_TASKS_SUCCESS';
-export const TASK_EDITED = 'TASK_EDITED';
+export const TASK_EDITED = 'TASK_EDITED_SUCCESS';
 export const PROJECT_SELECTED = 'PROJECT_SELECTED';
 
 const taskUrlStart = "http://localhost:58313/api/Projects/";
@@ -59,9 +59,9 @@ function handleAddingNewPriority(addResult){
     }
 }
 
-function taskEdited(task){
+function taskEditedSuccess(task){
     return {
-        type: TASK_EDITED,
+        type: TASK_EDITED_SUCCESS,
         data: task
     }
 }
@@ -134,6 +134,6 @@ export function editTask(task){
                 statusName: task.statusName,
                 priority: parseInt(task.priority)
             })
-        }).then(() => dispatch(taskEdited(task)))
+        }).then(() => dispatch(taskEditedSuccess(task)))
     }
 }

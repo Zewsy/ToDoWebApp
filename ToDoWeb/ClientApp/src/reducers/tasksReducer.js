@@ -1,4 +1,4 @@
-import { DELETE_TASK_SUCCESS, FETCH_TASKS_SUCCESS, ADD_TASK_SUCCESS, ADD_TASKS_SUCCESS, TASK_EDITED, PROJECT_SELECTED} from "../actions/taskActions";
+import { DELETE_TASK_SUCCESS, FETCH_TASKS_SUCCESS, ADD_TASK_SUCCESS, ADD_TASKS_SUCCESS, TASK_EDITED_SUCCESS, PROJECT_SELECTED} from "../actions/taskActions";
 
 const initialState = {
     tasks: [],
@@ -27,7 +27,7 @@ export function taskReducer(state = initialState, action){
                 ...state,
                 tasks: state.tasks.concat(action.data)
             }
-        case TASK_EDITED:
+        case TASK_EDITED_SUCCESS:
             return {
                 ...state,
                 tasks: state.tasks.map((t) => (t.id === action.data.id) ?  action.data : t)
