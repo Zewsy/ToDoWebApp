@@ -26,7 +26,7 @@ namespace ToDoDAL.EF
             {
                 IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("D:\\bme\\ToDoWebApp\\ToDoWeb\\appsettings.json")
+                .AddJsonFile("D:\\GitHub\\TodoApp\\TodoAppWeb\\TodoAppWeb\\appsettings.json")
                 .Build();
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("TodoDb"));
             }

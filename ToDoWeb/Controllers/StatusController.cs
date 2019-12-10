@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ToDoDAL;
 
@@ -20,9 +18,9 @@ namespace ToDoWeb.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Status> GetStatuses(int projectId)
+        public ActionResult<List<Status>> GetStatuses(int projectId)
         {
-            return statusRepository.GetStatuses(projectId);
+            return statusRepository.GetStatuses(projectId).ToList();
         }
 
         [HttpGet("{id}")]

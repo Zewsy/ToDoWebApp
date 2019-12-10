@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoDAL;
@@ -17,9 +18,9 @@ namespace ToDoWeb.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Project> GetProjects()
+        public ActionResult<List<Project>> GetProjects()
         {
-            return projectRepository.GetProjects();
+            return projectRepository.GetProjects().ToList();
         }
 
         [HttpGet("{id}")]
@@ -46,7 +47,7 @@ namespace ToDoWeb.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTask(int id, Project project)
+        public async Task<ActionResult> PutTask(int id, Project project)
         {
             if (id != project.Id)
                 return BadRequest();

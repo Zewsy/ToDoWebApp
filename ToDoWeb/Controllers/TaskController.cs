@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ToDoDAL;
@@ -17,9 +18,9 @@ namespace ToDoWeb.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ToDoDAL.Task> GetTasks(int projectId)
+        public ActionResult<List<ToDoDAL.Task>> GetTasks(int projectId)
         {
-            return taskRepository.GetTasksFromProject(projectId);
+            return taskRepository.GetTasksFromProject(projectId).ToList();
         }
 
         [HttpGet("{id}")]
